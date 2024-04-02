@@ -1,0 +1,22 @@
+{
+    "name": "assist/assist_ru_php_core",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Assist\\AssistRuPhpCore\\": "lib/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "~8.1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34"
+    }
+}
