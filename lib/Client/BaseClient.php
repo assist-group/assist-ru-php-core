@@ -2,9 +2,15 @@
 
 namespace Assist\AssistRuPhpCore\Client;
 
-use Assist\AssistRuPhpCore\Config\HttpClientConfigLoader;
+use Assist\AssistRuPhpCore\Config\ApiConfigLoaderInterface;
 use Assist\AssistRuPhpCore\Config\Config;
+use Assist\AssistRuPhpCore\Config\HttpClientConfigLoader;
 use Assist\AssistRuPhpCore\Exceptions\AuthException;
+use Assist\AssistRuPhpCore\Exceptions\BadRequestException;
+use Assist\AssistRuPhpCore\Exceptions\ForbiddenException;
+use Assist\AssistRuPhpCore\Exceptions\HttpException;
+use Assist\AssistRuPhpCore\Exceptions\InternalServerErrorException;
+use Assist\AssistRuPhpCore\Exceptions\UnauthorizedException;
 use Assist\AssistRuPhpCore\Helpers\HttpHelper;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
@@ -15,13 +21,12 @@ class BaseClient
     private HttpClientInterface $httpClient;
 
     private int $attempts;
-    private array|null $httpClientConfig;
     private LoggerInterface|null $logger;
-    private string $bearerToken;
+    private string|null $bearerToken = null;
     private int $timeout;
 
 
-    public function __construct(HttpClientInterface $httpClient = null, ConfigLoaderInterfase $configLoader = null)
+    public function __construct(HttpClientInterface $httpClient = null, ApiConfigLoaderInterface $configLoader = null)
     {
         if ($httpClient === null) {
             $httpClient = new HttpClient();
@@ -32,7 +37,6 @@ class BaseClient
         }
 
         $config = $configLoader->loadConfig()->getConfig();
-        $this->setConfig($config);
         $httpClient->setConfig($config);
 
         $this->attempts = Config::ATTEMPTS_COUNT;
@@ -46,9 +50,9 @@ class BaseClient
      * @param array $config
      * @return void
      */
-    public function setConfig(array $config): void
+    public function setHttpClientConfig(array $config): void
     {
-        $this->httpClientConfig = $config;
+        $this->httpClient->setConfig($config);
     }
 
     /**
@@ -62,9 +66,7 @@ class BaseClient
             $this->logger = $value;
         }
 
-        if ($this->httpClient) {
-            $this->httpClient->setLogger($this->logger);
-        }
+        $this->httpClient->setLogger($this->logger);
     }
 
     /**
@@ -112,9 +114,15 @@ class BaseClient
      * @return ResponseInterface
      *
      * @throws GuzzleException
+     * @throws AuthException
      */
-    public function execute(string $method, string $path, string $body = null, array $headers = array()): ResponseInterface
-    {
+    public function execute(
+        string $method,
+        string $path,
+        string $body = null,
+        array $headers = array()
+    ): ResponseInterface {
+        $headers = $this->prepareHeaders($headers);
         $response = $this->httpClient->request($method, $path, $body, $headers);
         $attempts = $this->attempts - 1;
 
@@ -144,49 +152,13 @@ class BaseClient
     }
 
     /**
-     * Преобразование данных из JSON в массив
-     */
-    private function decodeData(ResponseObject $response)
-    {
-        $resultArray = json_decode($response->getBody(), true);
-        if ($resultArray === null) {
-            throw new JsonException('Failed to decode response', json_last_error());
-        }
-
-        return $resultArray;
-    }
-
-    /**
-     * Преобразование данных из массива в JSON
-     *
-     * @return void
-     */
-    private function encodeData($serializedData)
-    {
-        if ($serializedData === array()) {
-            return '{}';
-        }
-
-        if (defined('JSON_UNESCAPED_UNICODE') && defined('JSON_UNESCAPED_SLASHES')) {
-            $encoded = json_encode($serializedData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        } else {
-            $encoded = self::_unescaped(json_encode($serializedData));
-        }
-
-        if ($encoded === false) {
-            $errorCode = json_last_error();
-            throw new JsonException("Failed serialize json.", $errorCode);
-        }
-
-        return $encoded;
-    }
-
-    /**
      * Подготовка заголовков
      *
+     * @param array $headers
+     * @return array
      * @throws AuthException
      */
-    private function prepareHeaders(array $headers)
+    private function prepareHeaders(array $headers): array
     {
         if (!$this->bearerToken) {
             throw new AuthException();
@@ -198,52 +170,40 @@ class BaseClient
     }
 
     /**
-     * Выбрасывает исключение по коду ошибки
+     * Обработчик ошибок запроса
      *
-     * @param ResponseObject $response
+     * @param ResponseInterface $response
      *
-     * @throws ApiException
-     * @throws BadApiRequestException
+     * @throws BadRequestException
      * @throws ForbiddenException
-     * @throws InternalServerError
-     * @throws NotFoundException
-     * @throws ResponseProcessingException
-     * @throws TooManyRequestsException
+     * @throws InternalServerErrorException
      * @throws UnauthorizedException
+     * @throws HttpException
      */
-    protected function handleError(ResponseObject $response)
+    protected function handleError(ResponseInterface $response)
     {
-        switch ($response->getCode()) {
-            case BadApiRequestException::HTTP_CODE:
-                throw new BadApiRequestException($response->getHeaders(), $response->getBody());
-                break;
-            case ForbiddenException::HTTP_CODE:
-                throw new ForbiddenException($response->getHeaders(), $response->getBody());
-                break;
-            case UnauthorizedException::HTTP_CODE:
-                throw new UnauthorizedException($response->getHeaders(), $response->getBody());
-                break;
-            case InternalServerError::HTTP_CODE:
-                throw new InternalServerError($response->getHeaders(), $response->getBody());
-                break;
-            case NotFoundException::HTTP_CODE:
-                throw new NotFoundException($response->getHeaders(), $response->getBody());
-                break;
-            case TooManyRequestsException::HTTP_CODE:
-                throw new TooManyRequestsException($response->getHeaders(), $response->getBody());
-                break;
-            case ResponseProcessingException::HTTP_CODE:
-                throw new ResponseProcessingException($response->getHeaders(), $response->getBody());
-                break;
-            default:
-                if ($response->getCode() > 399) {
-                    throw new ApiException(
-                        'Unexpected response error code',
-                        $response->getCode(),
-                        $response->getHeaders(),
-                        $response->getBody()
-                    );
-                }
-        }
+        throw match ($response->getStatusCode()) {
+            HttpHelper::CODE_BAD_REQUEST => new BadRequestException(
+                responseHeaders: $response->getHeaders(),
+                responseBody: $response->getBody()
+            ),
+            HttpHelper::CODE_FORBIDDEN => new ForbiddenException(
+                responseHeaders: $response->getHeaders(), responseBody: $response->getBody()
+            ),
+            HttpHelper::CODE_UNAUTHORIZED => new UnauthorizedException(
+                responseHeaders: $response->getHeaders(),
+                responseBody: $response->getBody()
+            ),
+            HttpHelper::CODE_INTERNAL_SERVER_ERROR => new InternalServerErrorException(
+                responseHeaders: $response->getHeaders(),
+                responseBody: $response->getBody()
+            ),
+            default => new HttpException(
+                'Unexpected response status code',
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $response->getBody()
+            ),
+        };
     }
 }

@@ -5,6 +5,7 @@ use Assist\AssistRuPhpCore\Client\BaseClient;
 use Assist\AssistRuPhpCore\Client\HttpClient;
 use Assist\AssistRuPhpCore\Config\Config;
 
+use Assist\AssistRuPhpCore\Exceptions\AuthException;
 use Assist\AssistRuPhpCore\Helpers\HttpHelper;
 
 use GuzzleHttp\Psr7\Response;
@@ -14,11 +15,11 @@ use function PHPUnit\Framework\assertEquals;
 
 it('should set config', function () {
     $config = ['test', 2];
-    $baseClient = new BaseClient();
+    $httpClient = Mockery::mock(HttpClient::class);
+    $httpClient->shouldReceive('setConfig')->times(2);
+    $baseClient = new BaseClient($httpClient);
 
-    $baseClient->setConfig($config);
-
-    assertEquals($config, getProperty($baseClient, 'httpClientConfig'));
+    $baseClient->setHttpClientConfig($config);
 });
 
 it('should set logger', function () {
@@ -62,6 +63,7 @@ it('should return an object implement the ResponseInterface', function () {
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->once()->andReturn($response);
     $baseClient = new BaseClient($httpClient);
+    $baseClient->setBearerToken(fake()->sha256());
 
     $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
 
@@ -69,13 +71,14 @@ it('should return an object implement the ResponseInterface', function () {
 });
 
 it('the count of requests must be equal to the set attempts', function () {
-    $response = new Response(HttpHelper::CODE_ETERNAL_SERVER_ERROR);
+    $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
     $attempts = Config::ATTEMPTS_COUNT + 2;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);
     $baseClient = new BaseClient($httpClient);
     $baseClient->setAttempts($attempts);
+    $baseClient->setBearerToken(fake()->sha256());
 
     $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
 
@@ -83,17 +86,26 @@ it('the count of requests must be equal to the set attempts', function () {
 });
 
 it('the count of requests must be equal to the default attempts, if the attempts have not been set manually', function () {
-    $response = new Response(HttpHelper::CODE_ETERNAL_SERVER_ERROR);
+    $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
     $attempts = Config::ATTEMPTS_COUNT;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);
     $baseClient = new BaseClient($httpClient);
+    $baseClient->setBearerToken(fake()->sha256());
 
     $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
 
     assertEquals($response, $result);
 });
+
+it('should throw AuthException if the bearer token is not set', function () {
+    $httpClient = Mockery::mock(HttpClient::class);
+    $httpClient->shouldReceive('setConfig');
+    $baseClient = new BaseClient($httpClient);
+
+    $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
+})->throws(AuthException::class);
 
 it('should set auth token in headers', function () {
     $token = fake()->sha256();
