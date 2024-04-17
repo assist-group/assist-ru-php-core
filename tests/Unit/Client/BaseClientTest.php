@@ -50,7 +50,7 @@ it('should set attempts', function () {
 });
 
 it('should set to the default timeout', function () {
-    $defaultTimeout = Config::REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
+    $defaultTimeout = Config::DEFAULT_REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
 
     $baseClient = new BaseClient();
 
@@ -72,7 +72,7 @@ it('should return an object implement the ResponseInterface', function () {
 
 it('the count of requests must be equal to the set attempts', function () {
     $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
-    $attempts = Config::ATTEMPTS_COUNT + 2;
+    $attempts = Config::DEFAULT_ATTEMPTS_COUNT + 2;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);
@@ -87,7 +87,7 @@ it('the count of requests must be equal to the set attempts', function () {
 
 it('the count of requests must be equal to the default attempts, if the attempts have not been set manually', function () {
     $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
-    $attempts = Config::ATTEMPTS_COUNT;
+    $attempts = Config::DEFAULT_ATTEMPTS_COUNT;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);

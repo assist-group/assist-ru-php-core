@@ -39,8 +39,8 @@ class BaseClient
         $config = $configLoader->loadConfig()->getConfig();
         $httpClient->setConfig($config);
 
-        $this->attempts = Config::ATTEMPTS_COUNT;
-        $this->timeout = Config::REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
+        $this->attempts = Config::DEFAULT_ATTEMPTS_COUNT;
+        $this->timeout = Config::DEFAULT_REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
         $this->httpClient = $httpClient;
     }
 
@@ -145,7 +145,7 @@ class BaseClient
         if ($this->timeout) {
             $delay = $this->timeout;
         } else {
-            $delay = Config::REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
+            $delay = Config::DEFAULT_REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
         }
 
         usleep($delay * 1000);
