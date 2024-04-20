@@ -2,7 +2,7 @@
 
 namespace Assist\AssistRuPhpCore\Exceptions;
 
-class ConfigParamsException extends \Exception
+class ConfigInitParamsException extends \Exception
 {
 
 }

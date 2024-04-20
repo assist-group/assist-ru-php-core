@@ -16,9 +16,9 @@ class HttpClient implements HttpClientInterface
     /**
      * Выполнение запроса
      *
-     * @param string $path
+     * @param string $uri
      * @param string $method
-     * @param string|null $body
+     * @param array|null $params
      * @param array $headers
      *
      * @return ResponseInterface
@@ -27,13 +27,13 @@ class HttpClient implements HttpClientInterface
      */
     public function request(
         string $method,
-        string $path,
-        ?string $body = null,
+        string $uri,
+        ?array $params = null,
         array $headers = array()
     ): ResponseInterface {
-        $this->requestLog($method, $path, $body, $headers);
+        $this->requestLog($method, $uri, $params, $headers);
         $this->initHttpClient();
-        $response = $this->client->request($method, $path, ['headers' => $headers]);
+        $response = $this->client->request($method, $uri, ['headers' => $headers, 'form_params' => $params]);
         $this->responseLog($response->getBody(), $response->getStatusCode(), $response->getHeaders());
 
         return $response;
@@ -78,11 +78,11 @@ class HttpClient implements HttpClientInterface
      *
      * @param string $method
      * @param string $path
-     * @param string|null $body
+     * @param array $params
      * @param array $headers
      * @return void
      */
-    private function requestLog(string $method, string $path, string|null $body, array $headers): void
+    private function requestLog(string $method, string $path, array $params, array $headers): void
     {
         if ($this->logger !== null) {
             $message = 'Send request: ' . $method . ' ' . $path;
@@ -92,14 +92,8 @@ class HttpClient implements HttpClientInterface
                 $context['headers'] = $headers;
             }
 
-            if ($body) {
-                $data = json_decode($body, true);
-
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    $data = $body;
-                }
-
-                $context['body'] = $data;
+            if ($params) {
+                $context['body'] = $params;
             }
 
             $this->logger->info($message, $context);

@@ -4,7 +4,7 @@ namespace Assist\AssistRuPhpCore\Request;
 
 interface RequestInterface
 {
-    public function getUrl(): string;
+    public function getPath(): string;
 
-    public function getParams(): string;
+    public function getParams(): array;
 }

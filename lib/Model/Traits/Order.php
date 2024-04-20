@@ -5,216 +5,220 @@ namespace Assist\AssistRuPhpCore\Model\Traits;
 trait Order
 {
     /**
+     * Уникальный номер заказа в системе АПК Ассист, расширенный формат.
+     */
+    private string $billNumber;
+
+    /**
+     * Номер заказа.
+     */
+    private string $orderNumber;
+
+    /**
+     * Тестовый режим.
+     */
+    private int $testMode;
+
+    /**
+     * Комментарий к заказу.
+     */
+    private string $orderComment;
+
+    /**
+     * Оригинальная сумма заказа.
+     */
+    private string $orderAmount;
+
+    /**
+     * Оригинальная валюта заказа.
+     */
+    private string $orderCurrency;
+
+    /**
      * Дата заказа по Гринвичу (GMT)
      */
-    private $orderDate;
+    private string $orderDate;
 
     /**
-     * Статус заказа
+     * Статус заказа.
      */
-    private $orderState;
+    private string $orderState;
 
     /**
-     * Код возврата
+     * Курс валюты.
      */
-    private $responseCode;
+    private int $rate;
 
     /**
-     * Сообщение
-     */
-    private $message;
-
-    /**
-     * Сообщение о результате для покупателя
-     */
-    private $customerMessage;
-
-    /**
-     * Рекомендации
-     */
-    private $recommendation;
-
-    /**
-     * Код авторизации
-     */
-    private $approvalCode;
-
-    /**
-     * Протокол
-     */
-    private $protocolTypeName;
-
-    /**
-     * Процессинг
-     */
-    private $processingName;
-
-    /**
-     * Тип операции
-     */
-    private $operationType;
-
-    /**
-     * Дата формирования запроса по Гринвичу (GMT)
-     */
-    private $packetDate;
-
-    /**
-     * Подпись. Создается по следующему алгоритму:
+     * Получает уникальный номер заказа в системе.
      *
-     * 1. Формируется объединённая строка из параметров (в их строковом представлении, в формате как они переданы в ответе): billnumber, ordernumber, responsecode, orderamount, ordercurrency, meannumber, approvalcode, orderstate, packetdate (без разделителей)
-     * 2. Полученная строка подписывается закрытым ключом АПК Ассист.
-     * 3. Итоговая последовательность байт кодируется в BASE64.
+     * @return string
      */
-    private $signature;
-
-    /**
-     * Пакет запроса по 3D-Secure авторизации
-     */
-    private $pareq;
-
-    /**
-     * Адрес для переадресации плательщика для прохождения 3D-Secure авторизации
-     */
-    private $ascurl;
-
-    public function setOrderDate($orderDate)
+    public function getBillNumber(): string
     {
-        $this->orderDate = $orderDate;
+        return $this->billNumber;
     }
 
-    public function getOrderDate()
+    /**
+     * Устанавливает уникальный номер заказа в системе.
+     *
+     * @param string $billNumber Уникальный номер заказа в системе АПК Ассист, расширенный формат.
+     */
+    protected function setBillNumber(string $billNumber): void
+    {
+        $this->billNumber = $billNumber;
+    }
+
+    /**
+     * Получает номер заказа.
+     *
+     * @return string
+     */
+    public function getOrderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+
+    /**
+     * Устанавливает номер заказа.
+     *
+     * @param string $orderNumber Номер заказа.
+     */
+    protected function setOrderNumber(string $orderNumber): void
+    {
+        $this->orderNumber = $orderNumber;
+    }
+
+    /**
+     * Возвращает признак тестового режима
+     *
+     * @return bool
+     */
+    public function getTestMode(): bool
+    {
+        return $this->testMode;
+    }
+
+    /**
+     * @param bool $testMode
+     * @return void
+     */
+    protected function setTestMode(bool $testMode): void
+    {
+        $this->testMode = $testMode;
+    }
+
+    /**
+     * Возвращает комментарий к заказу
+     *
+     * @return string
+     */
+    public function getOrderComment(): string
+    {
+        return $this->orderComment;
+    }
+
+    /**
+     * @param string $orderComment
+     * @return void
+     */
+    protected function setOrderComment(string $orderComment): void
+    {
+        $this->orderComment = $orderComment;
+    }
+
+    /**
+     * Возвращает оригинальную сумму заказа
+     *
+     * @return string
+     */
+    public function getOrderAmount(): string
+    {
+        return $this->orderAmount;
+    }
+
+    /**
+     * @param string $orderAmount
+     * @return void
+     */
+    protected function setOrderAmount(string $orderAmount): void
+    {
+        $this->orderAmount = $orderAmount;
+    }
+
+    /**
+     * Возвращает оригинальную валюту заказа
+     *
+     * @return string
+     */
+    public function getOrderCurrency(): string
+    {
+        return $this->orderCurrency;
+    }
+
+    /**
+     * @param string $orderCurrency
+     * @return void
+     */
+    protected function setOrderCurrency(string $orderCurrency): void
+    {
+        $this->orderCurrency = $orderCurrency;
+    }
+
+    /**
+     * Возвращает курс валют
+     *
+     * @return string
+     */
+    public function getRate(): string
+    {
+        return $this->rate;
+    }
+
+    /**
+     * @param string $rate
+     * @return void
+     */
+    protected function setRate(string $rate): void
+    {
+        $this->rate = $rate;
+    }
+
+    /**
+     * Возвращает дату заказа по Гринвичу (GMT)
+     *
+     * @return string
+     */
+    public function getOrderDate(): string
     {
         return $this->orderDate;
     }
 
-    public function setOrderState($orderState)
+    /**
+     * @param string $orderDate
+     * @return void
+     */
+    protected function setOrderDate(string $orderDate): void
     {
-        $this->orderState = $orderState;
+        $this->orderDate = $orderDate;
     }
 
-    public function getOrderState()
+    /**
+     * Возвращает статус заказа
+     *
+     * @return string
+     */
+    public function getOrderState(): string
     {
         return $this->orderState;
     }
 
-    public function setResponseCode($responseCode)
+    /**
+     * @param string $orderState
+     * @return void
+     */
+    protected function setOrderState(string $orderState): void
     {
-        $this->responseCode = $responseCode;
-    }
-
-    public function getResponseCode()
-    {
-        return $this->responseCode;
-    }
-
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    public function setCustomerMessage($customerMessage)
-    {
-        $this->customerMessage = $customerMessage;
-    }
-
-    public function getCustomerMessage()
-    {
-        return $this->customerMessage;
-    }
-
-    public function setRecommendation($recommendation)
-    {
-        $this->recommendation = $recommendation;
-    }
-
-    public function getRecommendation()
-    {
-        return $this->recommendation;
-    }
-
-    public function setApprovalCode($approvalCode)
-    {
-        $this->approvalCode = $approvalCode;
-    }
-
-    public function getApprovalCode()
-    {
-        return $this->approvalCode;
-    }
-
-    public function setProtocolTypeName($protocolTypeName)
-    {
-        $this->protocolTypeName = $protocolTypeName;
-    }
-
-    public function getProtocolTypeName()
-    {
-        return $this->protocolTypeName;
-    }
-
-    public function setProcessingName($processingName)
-    {
-        $this->processingName = $processingName;
-    }
-
-    public function getProcessingName()
-    {
-        return $this->processingName;
-    }
-
-    public function setOperationType($operationType)
-    {
-        $this->operationType = $operationType;
-    }
-
-    public function getOperationType()
-    {
-        return $this->operationType;
-    }
-
-    public function setPacketDate($packetDate)
-    {
-        $this->packetDate = $packetDate;
-    }
-
-    public function getPacketDate()
-    {
-        return $this->packetDate;
-    }
-
-    public function setSignature($signature)
-    {
-        $this->signature = $signature;
-    }
-
-    public function getSignature()
-    {
-        return $this->signature;
-    }
-
-    public function setPareq($pareq)
-    {
-        $this->pareq = $pareq;
-    }
-
-    public function getPareq()
-    {
-        return $this->pareq;
-    }
-
-    public function setAscurl($ascurl)
-    {
-        $this->ascurl = $ascurl;
-    }
-
-    public function getAsccurl()
-    {
-        return $this->ascurl;
+        $this->orderState = $orderState;
     }
 }

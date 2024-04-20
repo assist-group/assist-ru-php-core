@@ -6,20 +6,51 @@ use Assist\AssistRuPhpCore\Exceptions\RequiredParameterDoesNotExistException;
 
 class AbstractRequest implements RequestInterface
 {
-    private string $url;
+    protected string $path;
+    protected array $params;
+    protected array $requiredParameters;
 
-    public function getUrl(): string
+
+    /**
+     * Возвращает путь запроса
+     *
+     * @return string
+     */
+    public function getPath(): string
     {
-        return $this->url;
+        return $this->path;
     }
 
     /**
+     * Возвращает параметры запросы
+     *
+     * @return array
      * @throws RequiredParameterDoesNotExistException
      */
-    protected function checkParams($requiredParams, $params)
+    public function getParams(): array
+    {
+        $this->checkParams($this->getRequiredParameters(), $this->params);
+
+        return $this->params;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getRequiredParameters(): array
+    {
+        return $this->requiredParameters;
+    }
+
+    /**
+     * @param array $requiredParams
+     * @param array $params
+     * @throws RequiredParameterDoesNotExistException
+     */
+    protected function checkParams(array $requiredParams, array $params): void
     {
         foreach ($requiredParams as $param) {
-            if (!in_array($param, $params)) {
+            if (!array_key_exists($param, $params)) {
                 throw new RequiredParameterDoesNotExistException('param ' . $param . ' is not defined');
             }
         }

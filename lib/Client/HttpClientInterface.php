@@ -9,8 +9,8 @@ interface HttpClientInterface
 {
     public function request(
         string $method,
-        string $path,
-        ?string $body = null,
+        string $uri,
+        ?array $params = null,
         array $headers = array()
     ): ResponseInterface;
 

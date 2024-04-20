@@ -5,7 +5,6 @@ namespace Assist\AssistRuPhpCore\Client;
 use Assist\AssistRuPhpCore\Config\ApiConfigLoaderInterface;
 use Assist\AssistRuPhpCore\Config\Config;
 use Assist\AssistRuPhpCore\Config\HttpClientConfigLoader;
-use Assist\AssistRuPhpCore\Exceptions\AuthException;
 use Assist\AssistRuPhpCore\Exceptions\BadRequestException;
 use Assist\AssistRuPhpCore\Exceptions\ForbiddenException;
 use Assist\AssistRuPhpCore\Exceptions\HttpException;
@@ -18,16 +17,19 @@ use Psr\Log\LoggerInterface;
 
 class BaseClient
 {
+    private Config $config;
     private HttpClientInterface $httpClient;
-
-    private int $attempts;
     private LoggerInterface|null $logger;
-    private string|null $bearerToken = null;
+    private int $attempts;
     private int $timeout;
+    private string|null $bearerToken = null;
 
 
-    public function __construct(HttpClientInterface $httpClient = null, ApiConfigLoaderInterface $configLoader = null)
+
+    public function __construct(Config $config, HttpClientInterface $httpClient = null, ApiConfigLoaderInterface $configLoader = null)
     {
+        $this->config = $config;
+
         if ($httpClient === null) {
             $httpClient = new HttpClient();
         }
@@ -106,29 +108,29 @@ class BaseClient
     /**
      * Выполнение запроса
      *
-     * @param string $method
      * @param string $path
-     * @param string|null $body
+     * @param array|null $params
+     * @param string $method
      * @param array $headers
      *
      * @return ResponseInterface
      *
      * @throws GuzzleException
-     * @throws AuthException
      */
     public function execute(
-        string $method,
         string $path,
-        string $body = null,
+        array $params = null,
+        string $method = HttpHelper::METHOD_POST,
         array $headers = array()
     ): ResponseInterface {
+        $url = $this->config->getUrl() . $path;
         $headers = $this->prepareHeaders($headers);
-        $response = $this->httpClient->request($method, $path, $body, $headers);
+        $response = $this->httpClient->request($method, $url, $params, $headers);
         $attempts = $this->attempts - 1;
 
         while ($response->getStatusCode() !== HttpHelper::CODE_OK && $attempts > 0) {
             $this->sleep();
-            $response = $this->httpClient->request($method, $path, $body, $headers);
+            $response = $this->httpClient->request($method, $url, $params, $headers);
             $attempts--;
         }
 
@@ -156,15 +158,12 @@ class BaseClient
      *
      * @param array $headers
      * @return array
-     * @throws AuthException
      */
     private function prepareHeaders(array $headers): array
     {
-        if (!$this->bearerToken) {
-            throw new AuthException();
+        if ($this->bearerToken) {
+            $headers['Authorization'] = $this->bearerToken;
         }
-
-        $headers['Authorization'] = $this->bearerToken;
 
         return $headers;
     }

@@ -4,5 +4,6 @@ namespace Assist\AssistRuPhpCore\Response;
 
 interface ResponseInterface
 {
-    public function setPropsFromArray(array $responseData);
+    public function __construct(array $responseData);
+    public function getResponseData(): array;
 }
