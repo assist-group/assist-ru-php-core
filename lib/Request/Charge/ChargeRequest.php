@@ -4,7 +4,7 @@ namespace Assist\AssistRuPhpCore\Request\Charge;
 
 use Assist\AssistRuPhpCore\Request\AbstractRequest;
 
-class ChargeRequest extends AbstractRequest
+class ChargeRequest extends AbstractRequest implements ChargeRequestInterface
 {
     private const REQUIRED_PARAMETERS = [
         'Merchant_ID',

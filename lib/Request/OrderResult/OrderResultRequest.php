@@ -1,23 +1,19 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Payments;
+namespace Assist\AssistRuPhpCore\Request\OrderResult;
 
 use Assist\AssistRuPhpCore\Request\AbstractRequest;
 
-class RecurrentPaymentRequest extends AbstractRequest implements RecurrentPaymentRequestInterface
+class OrderResultRequest extends AbstractRequest implements OrderResultRequestInterface
 {
     private const REQUIRED_PARAMETERS = [
         'Merchant_ID',
         'Login',
         'Password',
-        'OrderAmount',
         'BillNumber',
-        'OrderNumber',
-        'Amount',
-        'Currency',
     ];
 
-    protected string $path = '/recurrent/rp.cfm';
+    protected string $path = '/orderresult/orderresult.cfm';
 
     public function __construct(array $params)
     {

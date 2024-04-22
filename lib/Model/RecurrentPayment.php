@@ -7,7 +7,7 @@ use Assist\AssistRuPhpCore\Model\Traits\Customer;
 use Assist\AssistRuPhpCore\Model\Traits\Operation;
 use Assist\AssistRuPhpCore\Model\Traits\Order;
 
-class RecurrentPayment
+class RecurrentPayment implements RecurrentPaymentInterface
 {
     use Order, Customer, Operation, CheckData;
 }
