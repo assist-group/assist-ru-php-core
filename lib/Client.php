@@ -3,16 +3,17 @@
 namespace Assist\AssistRuPhpCore;
 
 use Assist\AssistRuPhpCore\Client\BaseClient;
-use Assist\AssistRuPhpCore\Exceptions\AuthException;
 use Assist\AssistRuPhpCore\Exceptions\BadRequestException;
 use Assist\AssistRuPhpCore\Exceptions\ForbiddenException;
 use Assist\AssistRuPhpCore\Exceptions\HttpException;
 use Assist\AssistRuPhpCore\Exceptions\InternalServerErrorException;
 use Assist\AssistRuPhpCore\Exceptions\UnauthorizedException;
+use Assist\AssistRuPhpCore\Model\ChargeInterface;
 use Assist\AssistRuPhpCore\Request\Cancel\CancelRequestInterface;
-use Assist\AssistRuPhpCore\Request\Payments\CreatePaymentRequestInterface;
+use Assist\AssistRuPhpCore\Request\Charge\ChargeRequestInterface;
 use Assist\AssistRuPhpCore\Request\Payments\RecurrentPaymentRequestInterface;
 use Assist\AssistRuPhpCore\Response\Cancel\CancelResponse;
+use Assist\AssistRuPhpCore\Response\Charge\ChargeResponse;
 use Assist\AssistRuPhpCore\Response\Payments\RecurrentPaymentResponse;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -63,4 +64,29 @@ class Client extends BaseClient
 
         return new CancelResponse(json_decode($response->getBody(), true));
     }
+
+    /**
+     * @param ChargeRequestInterface $cancelRequest
+     *
+     * @return ChargeInterface
+     *
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InternalServerErrorException
+     * @throws UnauthorizedException
+     */
+    public function change(ChargeRequestInterface $cancelRequest): ChargeInterface
+    {
+        $response = $this->execute($cancelRequest->getPath(), $cancelRequest->getParams());
+
+        if ($response->getStatusCode() !== 200) {
+            $this->handleError($response);
+        }
+
+        return new ChargeResponse(json_decode($response->getBody(), true));
+    }
+
+
 }
