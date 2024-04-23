@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Exceptions;
+namespace Assist\Exceptions;
 
-use Assist\AssistRuPhpCore\Exceptions\HttpException;
+use Assist\Exceptions\HttpException;
 
 class ForbiddenException extends HttpException
 {

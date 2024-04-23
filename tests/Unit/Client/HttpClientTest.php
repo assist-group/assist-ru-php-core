@@ -1,6 +1,6 @@
 <?php
 
-use Assist\AssistRuPhpCore\Client\HttpClient;
+use Assist\Client\HttpClient;
 
 use GuzzleHttp\Client;
 

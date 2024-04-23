@@ -1,10 +1,13 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\OrderResult;
+namespace Assist\Response\OrderResult;
 
-use Assist\AssistRuPhpCore\Helpers\ResponseHelper;
-use Assist\AssistRuPhpCore\Model\OrderResult;
-use Assist\AssistRuPhpCore\Response\ResponseTrait;
+use Assist\Helpers\ResponseHelper;
+use Assist\Model\CheckData;
+use Assist\Model\Customer;
+use Assist\Model\Operation;
+use Assist\Model\OrderResult;
+use Assist\Response\ResponseTrait;
 
 class OrderResultResponse extends OrderResult implements OrderResultResponseInterface
 {
@@ -22,10 +25,6 @@ class OrderResultResponse extends OrderResult implements OrderResultResponseInte
      */
     private function setPropsFromArray(array $responseData): void
     {
-        $this->setFirstname($responseData[ResponseHelper::FIRSTNAME]);
-        $this->setLastname($responseData[ResponseHelper::LASTNAME]);
-        $this->setMiddlename($responseData[ResponseHelper::MIDDLENAME]);
-        $this->setEmail($responseData[ResponseHelper::EMAIL]);
         $this->setBillNumber($responseData[ResponseHelper::BILL_NUMBER]);
         $this->setOrderNumber($responseData[ResponseHelper::ORDER_NUMBER]);
         $this->setTestMode($responseData[ResponseHelper::TEST_MODE]);
@@ -34,26 +33,34 @@ class OrderResultResponse extends OrderResult implements OrderResultResponseInte
         $this->setOrderCurrency($responseData[ResponseHelper::ORDER_CURRENCY]);
         $this->setOrderDate($responseData[ResponseHelper::ORDER_DATE]);
         $this->setOrderState($responseData[ResponseHelper::ORDER_STATE]);
-        $this->setPacketDate($responseData[ResponseHelper::PACKET_DATE]);
-        $this->setSignature($responseData[ResponseHelper::SIGNATURE]);
-        $this->setOperationType($responseData[ResponseHelper::OPERATION_TYPE]);
-        $this->setAmount($responseData[ResponseHelper::AMOUNT]);
-        $this->setCurrency($responseData[ResponseHelper::CURRENCY]);
-        $this->setIpAddress($responseData[ResponseHelper::IP_ADDRESS]);
-        $this->setMeanTypeName($responseData[ResponseHelper::MEAN_TYPE_NAME]);
-        $this->setMeanSubType($responseData[ResponseHelper::MEAN_SUB_TYPE]);
-        $this->setMeanNumber($responseData[ResponseHelper::MEAN_NUMBER]);
-        $this->setCardHolder($responseData[ResponseHelper::CARD_HOLDER]);
-        $this->setCardExpirationDate($responseData[ResponseHelper::CARD_EXPIRATION_DATE]);
-        $this->setIssueBank($responseData[ResponseHelper::ISSUE_BANK]);
-        $this->setBankCountry($responseData[ResponseHelper::BANK_COUNTRY]);
         $this->setRate($responseData[ResponseHelper::RATE]);
-        $this->setResponseCode($responseData[ResponseHelper::RESPONSE_CODE]);
-        $this->setMessage($responseData[ResponseHelper::MESSAGE]);
-        $this->setCustomerMessage($responseData[ResponseHelper::CUSTOMER_MESSAGE]);
-        $this->setRecommendation($responseData[ResponseHelper::RECOMMENDATION]);
-        $this->setApprovalCode($responseData[ResponseHelper::APPROVAL_CODE]);
-        $this->setProtocolTypeName($responseData[ResponseHelper::PROTOCOL_TYPE_NAME]);
-        $this->setProcessingName($responseData[ResponseHelper::PROCESSING_NAME]);
+
+        $customerData = $responseData[ResponseHelper::CUSTOMER];
+        $this->setCustomer(
+            new Customer(
+                $customerData[ResponseHelper::FIRSTNAME],
+                $customerData[ResponseHelper::LASTNAME],
+                $customerData[ResponseHelper::MIDDLENAME],
+                $customerData[ResponseHelper::EMAIL]
+            )
+        );
+
+        $checkData = $responseData[ResponseHelper::CHECK_DATA];
+        $this->setCheckData(
+            new CheckData(
+                $checkData[ResponseHelper::SIGNATURE],
+                $checkData[ResponseHelper::CHECK_VALUE],
+                $checkData[ResponseHelper::PACKET_DATE]
+            )
+        );
+
+        $operations = $responseData[ResponseHelper::OPERATIONS];
+        $operationsResult = [];
+
+        foreach ($operations as $operation) {
+            $operationsResult[] = new Operation($operation);
+        }
+
+        $this->setOperations($operationsResult);
     }
 }

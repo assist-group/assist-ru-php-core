@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Charge;
+namespace Assist\Request\Charge;
 
-use Assist\AssistRuPhpCore\Request\RequestInterface;
+use Assist\Request\RequestInterface;
 
 interface ChargeRequestInterface extends RequestInterface
 {

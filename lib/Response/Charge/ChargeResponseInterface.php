@@ -1,9 +1,9 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\Charge;
+namespace Assist\Response\Charge;
 
-use Assist\AssistRuPhpCore\Model\ChargeInterface;
-use Assist\AssistRuPhpCore\Response\ResponseInterface;
+use Assist\Model\ChargeInterface;
+use Assist\Response\ResponseInterface;
 
 interface ChargeResponseInterface extends ResponseInterface, ChargeInterface
 {

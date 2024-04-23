@@ -1,11 +1,11 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Model;
+namespace Assist\Model;
 
-use Assist\AssistRuPhpCore\Model\Traits\CheckDataInterface;
-use Assist\AssistRuPhpCore\Model\Traits\CustomerInterface;
-use Assist\AssistRuPhpCore\Model\Traits\OperationInterface;
-use Assist\AssistRuPhpCore\Model\Traits\OrderInterface;
+use Assist\Model\Traits\CheckDataInterface;
+use Assist\Model\Traits\CustomerInterface;
+use Assist\Model\Traits\OperationInterface;
+use Assist\Model\Traits\OrderInterface;
 
 interface CancelInterface extends OrderInterface, CustomerInterface, OperationInterface, CheckDataInterface
 {

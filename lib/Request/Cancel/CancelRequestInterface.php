@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Cancel;
+namespace Assist\Request\Cancel;
 
-use Assist\AssistRuPhpCore\Request\RequestInterface;
+use Assist\Request\RequestInterface;
 
 interface CancelRequestInterface extends RequestInterface
 {

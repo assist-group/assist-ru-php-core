@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Client;
+namespace Assist\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

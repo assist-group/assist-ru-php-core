@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request;
+namespace Assist\Request;
 
 interface RequestInterface
 {

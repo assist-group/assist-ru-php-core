@@ -1,9 +1,9 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\OrderResult;
+namespace Assist\Response\OrderResult;
 
-use Assist\AssistRuPhpCore\Model\OrderResultInterface;
-use Assist\AssistRuPhpCore\Response\ResponseInterface;
+use Assist\Model\OrderResultInterface;
+use Assist\Response\ResponseInterface;
 
 interface OrderResultResponseInterface extends ResponseInterface, OrderResultInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response;
+namespace Assist\Response;
 
 trait ResponseTrait
 {

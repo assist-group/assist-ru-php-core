@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Payments;
+namespace Assist\Request\Payments;
 
-use Assist\AssistRuPhpCore\Request\RequestInterface;
+use Assist\Request\RequestInterface;
 
 interface RecurrentPaymentRequestInterface extends RequestInterface
 {

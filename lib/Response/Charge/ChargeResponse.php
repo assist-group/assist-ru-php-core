@@ -1,10 +1,10 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\Charge;
+namespace Assist\Response\Charge;
 
-use Assist\AssistRuPhpCore\Helpers\ResponseHelper;
-use Assist\AssistRuPhpCore\Model\Charge;
-use Assist\AssistRuPhpCore\Response\ResponseTrait;
+use Assist\Helpers\ResponseHelper;
+use Assist\Model\Charge;
+use Assist\Response\ResponseTrait;
 
 class ChargeResponse extends Charge implements ChargeResponseInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Model\Traits;
+namespace Assist\Model;
 
-trait ThreeDSData
+class ThreeDSData
 {
     /**
      * Версия протокола 3DSecure
@@ -24,9 +24,15 @@ trait ThreeDSData
      */
     private string $eci;
 
+    public function __construct(string $version, string $alphaAuthResult, string $challenge, string $eci)
+    {
+        $this->version = $version;
+        $this->alphaAuthResult = $alphaAuthResult;
+        $this->challenge = $challenge;
+        $this->eci = $eci;
+    }
+
     /**
-     * Возвращает версию протокола 3DSecure
-     *
      * @return string
      */
     public function getVersion(): string
@@ -35,17 +41,6 @@ trait ThreeDSData
     }
 
     /**
-     * @param string $version
-     * @return void
-     */
-    protected function setVersion(string $version): void
-    {
-        $this->version = $version;
-    }
-
-    /**
-     * Возвращает результат авторизации
-     *
      * @return string
      */
     public function getAlphaAuthResult(): string
@@ -54,17 +49,6 @@ trait ThreeDSData
     }
 
     /**
-     * @param string $alphaAuthResult
-     * @return void
-     */
-    protected function setAlphaAuthResult(string $alphaAuthResult): void
-    {
-        $this->alphaAuthResult = $alphaAuthResult;
-    }
-
-    /**
-     * Возвращает взаимодействие с держателем карты
-     *
      * @return string
      */
     public function getChallenge(): string
@@ -73,30 +57,10 @@ trait ThreeDSData
     }
 
     /**
-     * @param string $challenge
-     * @return void
-     */
-    protected function setChallenge(string $challenge): void
-    {
-        $this->challenge = $challenge;
-    }
-
-    /**
-     * Возвращает Electronic Commerce Indicator
-     *
      * @return string
      */
     public function getEci(): string
     {
         return $this->eci;
-    }
-
-    /**
-     * @param string $eci
-     * @return void
-     */
-    protected function setEci(string $eci): void
-    {
-        $this->eci = $eci;
     }
 }

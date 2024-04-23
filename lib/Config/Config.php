@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Config;
+namespace Assist\Config;
 
 class Config
 {

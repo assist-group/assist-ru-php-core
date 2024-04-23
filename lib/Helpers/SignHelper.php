@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Helpers;
+namespace Assist\Helpers;
 
 class SignHelper
 {

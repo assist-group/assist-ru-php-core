@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\OrderResult;
+namespace Assist\Request\OrderResult;
 
-use Assist\AssistRuPhpCore\Request\RequestInterface;
+use Assist\Request\RequestInterface;
 
 interface OrderResultRequestInterface extends RequestInterface
 {

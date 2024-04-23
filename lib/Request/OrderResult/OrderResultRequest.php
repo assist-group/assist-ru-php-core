@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\OrderResult;
+namespace Assist\Request\OrderResult;
 
-use Assist\AssistRuPhpCore\Request\AbstractRequest;
+use Assist\Request\AbstractRequest;
 
 class OrderResultRequest extends AbstractRequest implements OrderResultRequestInterface
 {

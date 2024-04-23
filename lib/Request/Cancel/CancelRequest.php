@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Cancel;
+namespace Assist\Request\Cancel;
 
-use Assist\AssistRuPhpCore\Request\AbstractRequest;
+use Assist\Request\AbstractRequest;
 
 class CancelRequest extends AbstractRequest implements CancelRequestInterface
 {
@@ -10,10 +10,10 @@ class CancelRequest extends AbstractRequest implements CancelRequestInterface
         'Merchant_ID',
         'Login',
         'Password',
-        'BillNumber',
+        'Billnumber',
     ];
 
-    protected string $path = '/cancel/cancel.cfm';
+    protected string $path = '/cancel/wscancel.cfm';
 
     public function __construct(array $params)
     {

@@ -1,39 +1,32 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Model;
+namespace Assist\Model;
 
-use Assist\AssistRuPhpCore\Model\Traits\CheckData;
-use Assist\AssistRuPhpCore\Model\Traits\Customer;
-use Assist\AssistRuPhpCore\Model\Traits\ThreeDSData;
+use Assist\Model\Traits\Order;
 
 class OrderResult implements OrderResultInterface
 {
-    use ThreeDSData, CheckData, Customer;
+    use Order;
+
+    /**
+     * @var Customer
+     */
+    private Customer $customer;
+
+    /**
+     * @var Operation[]
+     */
+    private array $operations;
+
+    /**
+     * @var CheckData
+     */
+    private CheckData $checkData;
 
     /**
      * Код ошибки
      */
     private string $errorCode;
-
-    /**
-     * Категория ответов при неуспешных оплатах, полученная от VISA
-     */
-    private string $errorCategory;
-
-    /**
-     * Код уведомления покупателя, полученный от Mastercard
-     */
-    private string $merchantAdviceCode;
-
-    /**
-     * Результат авторизации по 3DSecure (Y - успешно, N - неуспешно, A - Attempt, U – неизвестно, R- отказ, C – не завершено по каким-либо причинам, E - ошибка)
-     */
-    private string $authResult;
-
-    /**
-     * Результат проверки вовлеченности карты (1 – вовлечена, 0 – не вовлечена, -1 – неизвестно, null – ошибка при определении вовлеченности)
-     */
-    private string $authRequired;
 
     /**
      * Возвращает код ошибки
@@ -55,78 +48,55 @@ class OrderResult implements OrderResultInterface
     }
 
     /**
-     * Возвращает категорию ответов при неуспешных оплатах, полученную от VISA
+     * Возвращает данные покупателя
      *
-     * @return string
+     * @return Customer
      */
-    public function getErrorCategory(): string
+    public function getCustomer(): Customer
     {
-        return $this->errorCategory;
+        return $this->customer;
     }
 
     /**
-     * @param string $errorCategory
+     * @param Customer $customer
      * @return void
      */
-    protected function setErrorCategory(string $errorCategory): void
+    protected function setCustomer(Customer $customer): void
     {
-        $this->errorCategory = $errorCategory;
+        $this->customer = $customer;
     }
 
     /**
-     * Возвращает код уведомления покупателя, полученный от Mastercard
-     *
-     * @return string
+     * @return Operation[]
      */
-    public function getMerchantAdviceCode(): string
+    public function getOperations(): array
     {
-        return $this->merchantAdviceCode;
+        return $this->operations;
     }
 
     /**
-     * @param string $merchantAdviceCode
+     * @param array $operations
      * @return void
      */
-    protected function setMerchantAdviceCode(string $merchantAdviceCode): void
+    protected function setOperations(array $operations): void
     {
-        $this->merchantAdviceCode = $merchantAdviceCode;
+        $this->operations = $operations;
     }
 
     /**
-     * Возвращает результат авторизации по 3DSecure
-     *
-     * @return string
+     * @return CheckData
      */
-    public function getAuthResult(): string
+    public function getCheckData(): CheckData
     {
-        return $this->authResult;
+        return $this->checkData;
     }
 
     /**
-     * @param string $authResult
+     * @param CheckData $checkData
      * @return void
      */
-    protected function setAuthResult(string $authResult): void
+    protected function setCheckData(CheckData $checkData): void
     {
-        $this->authResult = $authResult;
-    }
-
-    /**
-     * Возвращает результат проверки вовлеченности карты
-     *
-     * @return string
-     */
-    public function getAuthRequired(): string
-    {
-        return $this->authRequired;
-    }
-
-    /**
-     * @param string $authRequired
-     * @return void
-     */
-    protected function setAuthRequired(string $authRequired): void
-    {
-        $this->authRequired = $authRequired;
+        $this->checkData = $checkData;
     }
 }

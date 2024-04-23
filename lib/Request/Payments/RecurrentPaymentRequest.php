@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Payments;
+namespace Assist\Request\Payments;
 
-use Assist\AssistRuPhpCore\Request\AbstractRequest;
+use Assist\Request\AbstractRequest;
 
 class RecurrentPaymentRequest extends AbstractRequest implements RecurrentPaymentRequestInterface
 {

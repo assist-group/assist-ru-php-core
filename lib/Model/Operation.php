@@ -1,104 +1,148 @@
 <?php
 
-namespace Assist\Model\Traits;
+namespace Assist\Model;
 
-trait Operation
+use Assist\Helpers\ResponseHelper;
+use http\Env\Response;
+
+class Operation
 {
-    /**
-     * Тип операции.
-     */
-    private int $operationType;
-
-    /**
-     * Сумма операции.
-     */
-    private int $amount;
-
-    /**
-     * Валюта операции.
-     */
-    private string $currency;
-
-    /**
-     * IP-адрес плательщика.
-     */
-    private string $ipaddress;
-
-    /**
-     * Тип платежного средства.
-     */
-    private string $meanTypeName;
-
-    /**
-     * Подтип платежного средства.
-     */
-    private string $meanSubType;
-
-    /**
-     * Номер платежного средства.
-     */
-    private string $meanNumber;
-
-    /**
-     * Держатель платежного средства.
-     */
-    private string $cardHolder;
-
-    /**
-     * Срок действия карты.
-     */
-    private string $cardExpirationDate;
-
-    /**
-     * Название банка-эмитента.
-     */
-    private string $issueBank;
-
-    /**
-     * Страна банка-эмитента.
-     */
-    private string $bankCountry;
-
-    /**
-     * Код возврата.
-     */
-    private string $responseCode;
-
-    /**
-     * Сообщение о результате операции.
-     */
-    private string $message;
+    use Traits\Operation;
 
 
     /**
-     * Сообщение о результате для покупателя.
+     * Результат авторизации по 3DSecure (Y - успешно, N - неуспешно, A - Attempt, U – неизвестно, R- отказ, C – не завершено по каким-либо причинам, E - ошибка)
      */
-    private string $customerMessage;
+    private string $authResult;
 
     /**
-     * Рекомендация.
+     * Результат проверки вовлеченности карты (1 – вовлечена, 0 – не вовлечена, -1 – неизвестно, null – ошибка при определении вовлеченности)
      */
-    private string $recommendation;
+    private string $authRequired;
 
     /**
-     * Код авторизации.
+     * Код ошибки
      */
-    private string $approvalCode;
+    private string $errorCode;
 
     /**
-     * Протокол.
+     * @var ThreeDSData
      */
-    private string $protocolTypeName;
+    private ThreeDSData $threeDSData;
 
     /**
-     * Процессинг.
+     * @var ChequeItem
      */
-    private string $processingName;
+    private ChequeItem $chequeItem;
+
+    public function __construct(array $operationData)
+    {
+        $this->authResult = $operationData[ResponseHelper::AUTH_RESULT];
+        $this->authRequired = $operationData[ResponseHelper::AUTH_REQUIRED];
+
+        $threeDSData = $operationData[ResponseHelper::THREEDS_DATA];
+        $this->threeDSData = new ThreeDSData(
+            $threeDSData[ResponseHelper::VERSION],
+            $threeDSData[ResponseHelper::ALPHA_AUTH_RESULT],
+            $threeDSData[ResponseHelper::CHALLENGE],
+            $threeDSData[ResponseHelper::ECI],
+        );
+
+        $chequeItemData = $operationData[ResponseHelper::CHEQUE_ITEM];
+        $this->chequeItem = new ChequeItem($chequeItemData);
+    }
 
     /**
-     * Номер финансовой транзакции, отправляемый в процессинг
+     * Возвращает код ошибки
+     *
+     * @return string
      */
-    private string $slipno;
+    public function getErrorCode(): string
+    {
+        return $this->errorCode;
+    }
+
+    /**
+     * @param string $errorCode
+     * @return void
+     */
+    protected function setErrorCode(string $errorCode): void
+    {
+        $this->errorCode = $errorCode;
+    }
+
+    /**
+     * Возвращает результат авторизации по 3DSecure
+     *
+     * @return string
+     */
+    public function getAuthResult(): string
+    {
+        return $this->authResult;
+    }
+
+    /**
+     * @param string $authResult
+     * @return void
+     */
+    protected function setAuthResult(string $authResult): void
+    {
+        $this->authResult = $authResult;
+    }
+
+    /**
+     * Возвращает результат проверки вовлеченности карты
+     *
+     * @return string
+     */
+    public function getAuthRequired(): string
+    {
+        return $this->authRequired;
+    }
+
+    /**
+     * @param string $authRequired
+     * @return void
+     */
+    protected function setAuthRequired(string $authRequired): void
+    {
+        $this->authRequired = $authRequired;
+    }
+
+    /**
+     * @return ThreeDSData
+     */
+    public function getThreeDSData(): ThreeDSData
+    {
+        return $this->threeDSData;
+    }
+
+    /**
+     * @param ThreeDSData $threeDSData
+     * @return void
+     */
+    protected function setThreeDSData(ThreeDSData $threeDSData): void
+    {
+        $this->threeDSData = $threeDSData;
+    }
+
+    /**
+     * @return ChequeItem
+     */
+    public function getChequeItem(): ChequeItem
+    {
+        return $this->chequeItem;
+    }
+
+    /**
+     * @param ChequeItem $chequeItem
+     * @return void
+     */
+    protected function setChequeItem(ChequeItem $chequeItem): void
+    {
+        $this->chequeItem = $chequeItem;
+    }
+
 
     /**
      * Возвращает тип операции
@@ -437,26 +481,16 @@ trait Operation
      * @param string $processingName
      * @return void
      */
-    protected function setProcessingName(string $processingName): void
+    public function setProcessingName(string $processingName): void
     {
         $this->processingName = $processingName;
-    }
-
-    /**
-     * Возвращает номер финансовой транзакции, отправляемый в процессинг
-     *
-     * @return string
-     */
-    public function getSlipno(): string
-    {
-        return $this->slipno;
     }
 
     /**
      * @param string $slipno
      * @return void
      */
-    protected function setSlipno(string $slipno): void
+    public function setSlipno(string $slipno): void
     {
         $this->slipno = $slipno;
     }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\Cancel;
+namespace Assist\Response\Cancel;
 
-use Assist\AssistRuPhpCore\Helpers\ResponseHelper;
-use Assist\AssistRuPhpCore\Model\Cancel;
-use Assist\AssistRuPhpCore\Response\ResponseInterface;
-use Assist\AssistRuPhpCore\Response\ResponseTrait;
+use Assist\Helpers\ResponseHelper;
+use Assist\Model\Cancel;
+use Assist\Response\ResponseInterface;
+use Assist\Response\ResponseTrait;
 
 class CancelResponse extends Cancel implements ResponseInterface, CancelResponseInterface
 {

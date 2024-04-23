@@ -1,12 +1,12 @@
 <?php
 
-use Assist\AssistRuPhpCore\Client\BaseClient;
+use Assist\Client\BaseClient;
 
-use Assist\AssistRuPhpCore\Client\HttpClient;
-use Assist\AssistRuPhpCore\Config\Config;
+use Assist\Client\HttpClient;
+use Assist\Config\Config;
 
-use Assist\AssistRuPhpCore\Exceptions\AuthException;
-use Assist\AssistRuPhpCore\Helpers\HttpHelper;
+use Assist\Exceptions\AuthException;
+use Assist\Helpers\HttpHelper;
 
 use GuzzleHttp\Psr7\Response;
 

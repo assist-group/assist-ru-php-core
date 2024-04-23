@@ -1,17 +1,28 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Model;
+namespace Assist\Model;
 
-use Assist\AssistRuPhpCore\Model\Traits\CheckDataInterface;
-use Assist\AssistRuPhpCore\Model\Traits\CustomerInterface;
-use Assist\AssistRuPhpCore\Model\Traits\ThreeDSDataInterface;
+use Assist\Model\Traits\OrderInterface;
 
-interface OrderResultInterface extends ThreeDSDataInterface, CheckDataInterface, CustomerInterface
+interface OrderResultInterface extends OrderInterface
 {
     /**
-     * Возвращает код ошибки
-     *
      * @return string
      */
     public function getErrorCode(): string;
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer;
+
+    /**
+     * @return CheckData
+     */
+    public function getCheckData(): CheckData;
+
+    /**
+     * @return Operation[]
+     */
+    public function getOperations(): array;
 }

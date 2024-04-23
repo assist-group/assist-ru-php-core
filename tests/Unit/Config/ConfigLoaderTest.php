@@ -1,6 +1,6 @@
 <?php
 
-use Assist\AssistRuPhpCore\Config\HttpClientConfigLoader;
+use Assist\Config\HttpClientConfigLoader;
 
 use function PHPUnit\Framework\assertEquals;
 

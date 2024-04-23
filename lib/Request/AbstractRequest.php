@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request;
+namespace Assist\Request;
 
-use Assist\AssistRuPhpCore\Exceptions\RequiredParameterDoesNotExistException;
+use Assist\Exceptions\RequiredParameterDoesNotExistException;
 
 class AbstractRequest implements RequestInterface
 {

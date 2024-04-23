@@ -1,16 +1,16 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Client;
+namespace Assist\Client;
 
-use Assist\AssistRuPhpCore\Config\ApiConfigLoaderInterface;
-use Assist\AssistRuPhpCore\Config\Config;
-use Assist\AssistRuPhpCore\Config\HttpClientConfigLoader;
-use Assist\AssistRuPhpCore\Exceptions\BadRequestException;
-use Assist\AssistRuPhpCore\Exceptions\ForbiddenException;
-use Assist\AssistRuPhpCore\Exceptions\HttpException;
-use Assist\AssistRuPhpCore\Exceptions\InternalServerErrorException;
-use Assist\AssistRuPhpCore\Exceptions\UnauthorizedException;
-use Assist\AssistRuPhpCore\Helpers\HttpHelper;
+use Assist\Config\ApiConfigLoaderInterface;
+use Assist\Config\Config;
+use Assist\Config\HttpClientConfigLoader;
+use Assist\Exceptions\BadRequestException;
+use Assist\Exceptions\ForbiddenException;
+use Assist\Exceptions\HttpException;
+use Assist\Exceptions\InternalServerErrorException;
+use Assist\Exceptions\UnauthorizedException;
+use Assist\Helpers\HttpHelper;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -117,7 +117,7 @@ class BaseClient
      *
      * @throws GuzzleException
      */
-    public function execute(
+    protected function execute(
         string $path,
         array $params = null,
         string $method = HttpHelper::METHOD_POST,
@@ -125,6 +125,7 @@ class BaseClient
     ): ResponseInterface {
         $url = $this->config->getUrl() . $path;
         $headers = $this->prepareHeaders($headers);
+        $params['Format'] = 5;
         $response = $this->httpClient->request($method, $url, $params, $headers);
         $attempts = $this->attempts - 1;
 

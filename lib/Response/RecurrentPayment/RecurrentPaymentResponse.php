@@ -1,10 +1,10 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\Payments;
+namespace Assist\Response\RecurrentPayment;
 
-use Assist\AssistRuPhpCore\Helpers\ResponseHelper;
-use Assist\AssistRuPhpCore\Model\RecurrentPayment;
-use Assist\AssistRuPhpCore\Response\ResponseTrait;
+use Assist\Helpers\ResponseHelper;
+use Assist\Model\RecurrentPayment;
+use Assist\Response\ResponseTrait;
 
 class RecurrentPaymentResponse extends RecurrentPayment implements RecurrentPaymentResponseInterface
 {

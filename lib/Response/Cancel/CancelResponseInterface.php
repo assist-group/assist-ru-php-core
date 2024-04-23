@@ -1,9 +1,9 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Response\Cancel;
+namespace Assist\Response\Cancel;
 
-use Assist\AssistRuPhpCore\Model\CancelInterface;
-use Assist\AssistRuPhpCore\Response\ResponseInterface;
+use Assist\Model\CancelInterface;
+use Assist\Response\ResponseInterface;
 
 interface CancelResponseInterface extends ResponseInterface, CancelInterface
 {

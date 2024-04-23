@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Exceptions;
+namespace Assist\Exceptions;
 
 class AuthException extends \Exception
 {

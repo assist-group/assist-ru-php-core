@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\Model\Traits;
+namespace Assist\Model;
 
-trait CheckData
+Class CheckData
 {
     /**
      * Дата формирования запроса по Гринвичу (GMT).
@@ -20,6 +20,13 @@ trait CheckData
      */
     private string $checkValue;
 
+    public function __construct(string $packetDate, string $signature, string $checkValue)
+    {
+        $this->packetDate = $packetDate;
+        $this->signature = $signature;
+        $this->checkValue = $checkValue;
+    }
+
     /**
      * Возвращает Значение X без разделителей, подписанное закрытым ключом АПК Ассист, закодированное в BASE64,
      * где X - billnumber,ordernumber,responsecode,orderamount,ordercurrency,meannumber,approvalcode,orderstate,packetdate
@@ -29,15 +36,6 @@ trait CheckData
     public function getSignature(): string
     {
         return $this->signature;
-    }
-
-    /**
-     * @param string $signature
-     * @return void
-     */
-    protected function setSignature(string $signature): void
-    {
-        $this->signature = $signature;
     }
 
     /**
@@ -51,15 +49,6 @@ trait CheckData
     }
 
     /**
-     * @param string $checkValue
-     * @return void
-     */
-    protected function setCheckValue(string $checkValue): void
-    {
-        $this->checkValue = $checkValue;
-    }
-
-    /**
      * Возвращает дату формирования запроса по Гринвичу (GMT)
      *
      * @return string
@@ -67,14 +56,5 @@ trait CheckData
     public function getPacketDate(): string
     {
         return $this->packetDate;
-    }
-
-    /**
-     * @param string $packetDate
-     * @return void
-     */
-    protected function setPacketDate(string $packetDate): void
-    {
-        $this->packetDate = $packetDate;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Model\Traits;
+namespace Assist\Model\Traits;
 
 interface OperationInterface
 {

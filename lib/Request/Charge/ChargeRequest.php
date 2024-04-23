@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Request\Charge;
+namespace Assist\Request\Charge;
 
-use Assist\AssistRuPhpCore\Request\AbstractRequest;
+use Assist\Request\AbstractRequest;
 
 class ChargeRequest extends AbstractRequest implements ChargeRequestInterface
 {

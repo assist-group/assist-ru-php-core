@@ -1,21 +1,21 @@
 <?php
 
-namespace Assist\AssistRuPhpCore;
+namespace Assist;
 
-use Assist\AssistRuPhpCore\Client\BaseClient;
-use Assist\AssistRuPhpCore\Exceptions\BadRequestException;
-use Assist\AssistRuPhpCore\Exceptions\ForbiddenException;
-use Assist\AssistRuPhpCore\Exceptions\HttpException;
-use Assist\AssistRuPhpCore\Exceptions\InternalServerErrorException;
-use Assist\AssistRuPhpCore\Exceptions\UnauthorizedException;
-use Assist\AssistRuPhpCore\Request\Cancel\CancelRequestInterface;
-use Assist\AssistRuPhpCore\Request\Charge\ChargeRequestInterface;
-use Assist\AssistRuPhpCore\Request\OrderResult\OrderResultRequestInterface;
-use Assist\AssistRuPhpCore\Request\Payments\RecurrentPaymentRequestInterface;
-use Assist\AssistRuPhpCore\Response\Cancel\CancelResponse;
-use Assist\AssistRuPhpCore\Response\Charge\ChargeResponse;
-use Assist\AssistRuPhpCore\Response\OrderResult\OrderResultResponse;
-use Assist\AssistRuPhpCore\Response\Payments\RecurrentPaymentResponse;
+use Assist\Client\BaseClient;
+use Assist\Exceptions\BadRequestException;
+use Assist\Exceptions\ForbiddenException;
+use Assist\Exceptions\HttpException;
+use Assist\Exceptions\InternalServerErrorException;
+use Assist\Exceptions\UnauthorizedException;
+use Assist\Request\Cancel\CancelRequestInterface;
+use Assist\Request\Charge\ChargeRequestInterface;
+use Assist\Request\OrderResult\OrderResultRequestInterface;
+use Assist\Request\Payments\RecurrentPaymentRequestInterface;
+use Assist\Response\Cancel\CancelResponse;
+use Assist\Response\Charge\ChargeResponse;
+use Assist\Response\OrderResult\OrderResultResponse;
+use Assist\Response\RecurrentPayment\RecurrentPaymentResponse;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Client extends BaseClient
@@ -62,6 +62,8 @@ class Client extends BaseClient
         if ($response->getStatusCode() !== 200) {
             $this->handleError($response);
         }
+
+        $responseData = (string)$response->getBody();
 
         return new CancelResponse(json_decode($response->getBody(), true));
     }

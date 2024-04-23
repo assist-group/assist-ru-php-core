@@ -1,6 +1,6 @@
 <?php
 
-namespace Assist\AssistRuPhpCore\Client;
+namespace Assist\Client;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
