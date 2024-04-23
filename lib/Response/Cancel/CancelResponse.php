@@ -11,13 +11,20 @@ class CancelResponse extends Cancel implements ResponseInterface, CancelResponse
 {
     use ResponseTrait;
 
+    /**
+     * @param array $responseData
+     */
     public function __construct(array $responseData)
     {
         $this->responseData = $responseData;
         $this->setPropsFromArray($responseData);
     }
 
-    private function setPropsFromArray(array $responseData)
+    /**
+     * @param array $responseData
+     * @return void
+     */
+    private function setPropsFromArray(array $responseData): void
     {
         $this->setOrderNumber($responseData[ResponseHelper::ORDER_NUMBER]);
         $this->setResponseCode($responseData[ResponseHelper::RESPONSE_CODE]);

@@ -7,12 +7,13 @@ use Assist\Exceptions\BadRequestException;
 use Assist\Exceptions\ForbiddenException;
 use Assist\Exceptions\HttpException;
 use Assist\Exceptions\InternalServerErrorException;
+use Assist\Exceptions\RequiredParameterDoesNotExistException;
 use Assist\Exceptions\UnauthorizedException;
-use Assist\Request\Cancel\CancelRequestInterface;
-use Assist\Request\Charge\ChargeRequestInterface;
+use Assist\Request\Cancel\CancelRequest;
+use Assist\Request\Charge\ChargeRequest;
 use Assist\Request\CreatePayment\CreatePaymentRequest;
-use Assist\Request\OrderResult\OrderResultRequestInterface;
-use Assist\Request\Payments\RecurrentPaymentRequestInterface;
+use Assist\Request\OrderResult\OrderResultRequest;
+use Assist\Request\RecurrentPayment\RecurrentPaymentRequest;
 use Assist\Response\Cancel\CancelResponse;
 use Assist\Response\Charge\ChargeResponse;
 use Assist\Response\CreatePayment\CreatePaymentResponse;
@@ -47,18 +48,19 @@ class Client extends BaseClient
     }
 
     /**
-     * @param RecurrentPaymentRequestInterface $recurrentPaymentRequest
+     * @param RecurrentPaymentRequest $recurrentPaymentRequest
      *
      * @return RecurrentPaymentResponse
      *
      * @throws BadRequestException
+     * @throws RequiredParameterDoesNotExistException
      * @throws ForbiddenException
+     * @throws GuzzleException
      * @throws HttpException
      * @throws InternalServerErrorException
      * @throws UnauthorizedException
-     * @throws GuzzleException
      */
-    public function recurrentPayment(RecurrentPaymentRequestInterface $recurrentPaymentRequest): RecurrentPaymentResponse
+    public function recurrentPayment(RecurrentPaymentRequest $recurrentPaymentRequest): RecurrentPaymentResponse
     {
         $response = $this->execute($recurrentPaymentRequest->getPath(), $recurrentPaymentRequest->getParams());
 
@@ -70,7 +72,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param CancelRequestInterface $cancelRequest
+     * @param CancelRequest $cancelRequest
      *
      * @return CancelResponse
      *
@@ -79,9 +81,10 @@ class Client extends BaseClient
      * @throws GuzzleException
      * @throws HttpException
      * @throws InternalServerErrorException
+     * @throws RequiredParameterDoesNotExistException
      * @throws UnauthorizedException
      */
-    public function cancel(CancelRequestInterface $cancelRequest): CancelResponse
+    public function cancel(CancelRequest $cancelRequest): CancelResponse
     {
         $response = $this->execute($cancelRequest->getPath(), $cancelRequest->getParams());
 
@@ -89,13 +92,11 @@ class Client extends BaseClient
             $this->handleError($response);
         }
 
-        $responseData = (string)$response->getBody();
-
         return new CancelResponse(json_decode((string)$response->getBody(), true));
     }
 
     /**
-     * @param ChargeRequestInterface $cancelRequest
+     * @param ChargeRequest $cancelRequest
      *
      * @return ChargeResponse
      *
@@ -104,9 +105,10 @@ class Client extends BaseClient
      * @throws GuzzleException
      * @throws HttpException
      * @throws InternalServerErrorException
+     * @throws RequiredParameterDoesNotExistException
      * @throws UnauthorizedException
      */
-    public function change(ChargeRequestInterface $cancelRequest): ChargeResponse
+    public function change(ChargeRequest $cancelRequest): ChargeResponse
     {
         $response = $this->execute($cancelRequest->getPath(), $cancelRequest->getParams());
 
@@ -118,7 +120,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param OrderResultRequestInterface $cancelRequest
+     * @param OrderResultRequest $cancelRequest
      *
      * @return OrderResultResponse
      *
@@ -127,9 +129,10 @@ class Client extends BaseClient
      * @throws GuzzleException
      * @throws HttpException
      * @throws InternalServerErrorException
+     * @throws RequiredParameterDoesNotExistException
      * @throws UnauthorizedException
      */
-    public function orderResult(OrderResultRequestInterface $cancelRequest): OrderResultResponse
+    public function orderResult(OrderResultRequest $cancelRequest): OrderResultResponse
     {
         $response = $this->execute($cancelRequest->getPath(), $cancelRequest->getParams());
 

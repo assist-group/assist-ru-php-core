@@ -10,6 +10,9 @@ class RecurrentPaymentResponse extends RecurrentPayment implements RecurrentPaym
 {
     use ResponseTrait;
 
+    /**
+     * @param array $responseData
+     */
     public function __construct(array $responseData)
     {
         $this->responseData = $responseData;

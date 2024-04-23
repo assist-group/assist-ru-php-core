@@ -5,7 +5,7 @@ namespace Assist\Response\CreatePayment;
 use Assist\Helpers\ResponseHelper;
 use Assist\Response\ResponseTrait;
 
-class CreatePaymentResponse
+class CreatePaymentResponse implements CreatePaymentResponseInterface
 {
     use ResponseTrait;
 

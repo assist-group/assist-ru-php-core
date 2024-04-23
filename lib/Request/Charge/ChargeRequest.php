@@ -2,18 +2,19 @@
 
 namespace Assist\Request\Charge;
 
+use Assist\Helpers\RequestHelper;
 use Assist\Request\AbstractRequest;
 
-class ChargeRequest extends AbstractRequest implements ChargeRequestInterface
+class ChargeRequest extends AbstractRequest
 {
     private const REQUIRED_PARAMETERS = [
-        'Merchant_ID',
-        'Login',
-        'Password',
-        'BillNumber',
+        RequestHelper::PARAM_MERCHANT_ID,
+        RequestHelper::PARAM_LOGIN,
+        RequestHelper::PARAM_PASSWORD,
+        RequestHelper::PARAM_BILL_NUMBER,
     ];
 
-    protected string $path = '/charge/charge.cfm';
+    protected string $path = RequestHelper::PATH_CHARGE;
 
     public function __construct(array $params)
     {

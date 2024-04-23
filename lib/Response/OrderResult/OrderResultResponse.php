@@ -13,6 +13,9 @@ class OrderResultResponse extends OrderResult implements OrderResultResponseInte
 {
     use ResponseTrait;
 
+    /**
+     * @param array $responseData
+     */
     public function __construct(array $responseData)
     {
         $this->responseData = $responseData;

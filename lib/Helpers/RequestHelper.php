@@ -21,4 +21,8 @@ class RequestHelper
     public const PARAM_CHEQUE_ITEMS = 'ChequeItems';
 
     public const PATH_CREATE_PAYMENT = '/pay/payrequest.cfm';
+    public const PATH_CANCEL = '/cancel/wscancel.cfm';
+    public const PATH_CHARGE = '/charge/charge.cfm';
+    public const PATH_ORDER_RESULT = '/orderresult/orderresult.cfm';
+    public const PATH_RECURRENT = '/recurrent/rp.cfm';
 }

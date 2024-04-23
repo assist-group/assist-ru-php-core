@@ -10,6 +10,9 @@ class ChargeResponse extends Charge implements ChargeResponseInterface
 {
     use ResponseTrait;
 
+    /**
+     * @param array $responseData
+     */
     public function __construct(array $responseData)
     {
         $this->responseData = $responseData;
