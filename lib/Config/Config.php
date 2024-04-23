@@ -23,55 +23,77 @@ class Config
     private ?string $successPaymentPageUrl;
     private ?string $errorPaymentPageUrl;
     private string $lang;
-
-    private ?string $signSecretWord;
     private string $shopId;
-
     private ?string $login;
     private ?string $password;
-
-    private bool $isRecurrentPayment = false;
     private bool $isEnablePaymentConfirmation = false;
     private bool $isEnableSaveCardDetails = false;
     private ?int $nds;
     private ?string $taxSystem;
     private ?string $calculationMethod;
 
-
+    /**
+     * @param array $configParams
+     */
     public function __construct(array $configParams)
     {
         $this->configProps = $configParams;
         $this->setProps();
     }
 
-    private function setProps()
+    /**
+     * @return void
+     */
+    private function setProps(): void
     {
-        $this->apiUrl = $this->getPropValue('api_url', self::DEFAULT_API_URL);
-        $this->testApiUrl = $this->getPropValue('test_api_url', self::DEFAULT_TEST_API_URL);
-        $this->isTestMode = $this->getPropValue('test_mode', self::DEFAULT_TEST_MODE_VALUE);
+        $this->apiUrl = $this->getPropValue(
+            'api_url',
+            self::DEFAULT_API_URL
+        );
+        $this->testApiUrl = $this->getPropValue(
+            'test_api_url',
+            self::DEFAULT_TEST_API_URL
+        );
+        $this->isTestMode = $this->getPropValue(
+            'test_mode',
+            self::DEFAULT_TEST_MODE_VALUE
+        );
+        $this->isEnablePaymentConfirmation = $this->getPropValue(
+            'payment_confirmation',
+            self::DEFAULT_PAYMENT_CONFIRMATION_VALUE
+        );
+        $this->isEnableSaveCardDetails = $this->getPropValue(
+            'save_card_details',
+            self::DEFAULT_SAVE_CARD_DETAILS_VALUE
+        );
+        $this->lang = $this->getPropValue('lang', self::DEFAULT_LANGUAGE);
         $this->successPaymentPageUrl = $this->getPropValue('success_payment_page_url');
         $this->errorPaymentPageUrl = $this->getPropValue('error_payment_page_url');
-        $this->lang = $this->getPropValue('lang', self::DEFAULT_LANGUAGE);
-        $this->signSecretWord = $this->getPropValue('sign_secret_word');
         $this->shopId = $this->getPropValue('shop_id');
         $this->login = $this->getPropValue('login');
         $this->password = $this->getPropValue('password');
-        $this->isEnablePaymentConfirmation = $this->getPropValue('payment_confirmation', self::DEFAULT_PAYMENT_CONFIRMATION_VALUE);
-        $this->isEnableSaveCardDetails = $this->getPropValue('save_card_details', self::DEFAULT_SAVE_CARD_DETAILS_VALUE);
         $this->paymentType = $this->getPropValue('payment_type');
         $this->nds = $this->getPropValue('nds');
         $this->taxSystem = $this->getPropValue('tax_system');
         $this->calculationMethod = $this->getPropValue('calculation_method');
     }
 
-    private function getPropValue(string $propName, string $defaultValue = null)
+    /**
+     * @param string $propName
+     * @param string|null $defaultValue
+     * @return mixed|string|null
+     */
+    private function getPropValue(string $propName, string $defaultValue = null): mixed
     {
         return array_key_exists($propName, $this->configProps)
             ? $this->configProps[$propName]
             : $defaultValue;
     }
 
-    public function getUrl()
+    /**
+     * @return string
+     */
+    public function getUrl(): string
     {
         return $this->isTestMode ? $this->testApiUrl : $this->apiUrl;
     }

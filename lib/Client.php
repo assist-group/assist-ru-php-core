@@ -10,16 +10,42 @@ use Assist\Exceptions\InternalServerErrorException;
 use Assist\Exceptions\UnauthorizedException;
 use Assist\Request\Cancel\CancelRequestInterface;
 use Assist\Request\Charge\ChargeRequestInterface;
+use Assist\Request\CreatePayment\CreatePaymentRequest;
 use Assist\Request\OrderResult\OrderResultRequestInterface;
 use Assist\Request\Payments\RecurrentPaymentRequestInterface;
 use Assist\Response\Cancel\CancelResponse;
 use Assist\Response\Charge\ChargeResponse;
+use Assist\Response\CreatePayment\CreatePaymentResponse;
 use Assist\Response\OrderResult\OrderResultResponse;
 use Assist\Response\RecurrentPayment\RecurrentPaymentResponse;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Client extends BaseClient
 {
+    /**
+     * @param CreatePaymentRequest $createPayment
+     *
+     * @return CreatePaymentResponse
+     *
+     * @throws BadRequestException
+     * @throws Exceptions\RequiredParameterDoesNotExistException
+     * @throws ForbiddenException
+     * @throws GuzzleException
+     * @throws HttpException
+     * @throws InternalServerErrorException
+     * @throws UnauthorizedException
+     */
+    public function createPayment(CreatePaymentRequest $createPayment): CreatePaymentResponse
+    {
+        $response = $this->execute($createPayment->getPath(), $createPayment->getParams());
+
+        if ($response->getStatusCode() !== 200) {
+            $this->handleError($response);
+        }
+
+        return new CreatePaymentResponse(json_decode((string)$response->getBody(), true));
+    }
+
     /**
      * @param RecurrentPaymentRequestInterface $recurrentPaymentRequest
      *
@@ -40,7 +66,7 @@ class Client extends BaseClient
             $this->handleError($response);
         }
 
-        return new RecurrentPaymentResponse(json_decode($response->getBody(), true));
+        return new RecurrentPaymentResponse(json_decode((string)$response->getBody(), true));
     }
 
     /**
@@ -65,7 +91,7 @@ class Client extends BaseClient
 
         $responseData = (string)$response->getBody();
 
-        return new CancelResponse(json_decode($response->getBody(), true));
+        return new CancelResponse(json_decode((string)$response->getBody(), true));
     }
 
     /**
@@ -88,7 +114,7 @@ class Client extends BaseClient
             $this->handleError($response);
         }
 
-        return new ChargeResponse(json_decode($response->getBody(), true));
+        return new ChargeResponse(json_decode((string)$response->getBody(), true));
     }
 
     /**
@@ -111,6 +137,6 @@ class Client extends BaseClient
             $this->handleError($response);
         }
 
-        return new OrderResultResponse(json_decode($response->getBody(), true));
+        return new OrderResultResponse(json_decode((string)$response->getBody(), true));
     }
 }

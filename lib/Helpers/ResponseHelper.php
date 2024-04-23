@@ -64,4 +64,6 @@ class ResponseHelper
     const EGAIS_CODE = 'egaiscode';
     const HS_CODE = 'hscode';
     const SUBJ_TYPE = 'subjtype';
+    const URL = 'URL';
+    const EXPIRATION_TIME = 'expirationtime';
 }
