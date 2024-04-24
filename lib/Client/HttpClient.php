@@ -33,7 +33,7 @@ class HttpClient implements HttpClientInterface
     ): ResponseInterface {
         $this->requestLog($method, $uri, $params, $headers);
         $this->initHttpClient();
-        $response = $this->client->request($method, $uri, ['headers' => $headers, 'form_params' => $params]);
+        $response = $this->client->request($method, $uri, ['headers' => $headers, 'form_params' => $params, 'http_errors' => false]);
         $this->responseLog($response->getBody(), $response->getStatusCode(), $response->getHeaders());
 
         return $response;

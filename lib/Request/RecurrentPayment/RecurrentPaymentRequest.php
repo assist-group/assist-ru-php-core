@@ -12,8 +12,6 @@ class RecurrentPaymentRequest extends AbstractRequest
         RequestHelper::PARAM_LOGIN,
         RequestHelper::PARAM_PASSWORD,
         RequestHelper::PARAM_BILL_NUMBER,
-        RequestHelper::PARAM_ORDER_NUMBER,
-        RequestHelper::PARAM_ORDER_AMOUNT,
         RequestHelper::PARAM_AMOUNT,
         RequestHelper::PARAM_CURRENCY,
     ];

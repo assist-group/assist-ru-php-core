@@ -1,8 +1,8 @@
 <?php
 
-namespace Assist\Model\Traits;
+namespace Assist\Model;
 
-trait CardData
+Class CardData
 {
     /**
      * Номер карты

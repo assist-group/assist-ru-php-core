@@ -38,6 +38,24 @@ class Client extends BaseClient
      */
     public function createPayment(CreatePaymentRequest $createPayment): CreatePaymentResponse
     {
+        $config = $this->config;
+
+        if ($config->getLogin()) {
+            $createPayment->setLogin($config->getLogin());
+        }
+
+        if ($config->getPassword()) {
+            $createPayment->setPassword($config->getPassword());
+        }
+
+        if ($config->getSuccessPaymentPageUrl()) {
+            $createPayment->setSuccessPaymentPageUrl($config->getSuccessPaymentPageUrl());
+        }
+
+        if ($config->getErrorPaymentPageUrl()) {
+            $createPayment->setErrorPaymentPageUrl($config->getErrorPaymentPageUrl());
+        }
+
         $response = $this->execute($createPayment->getPath(), $createPayment->getParams());
 
         if ($response->getStatusCode() !== 200) {

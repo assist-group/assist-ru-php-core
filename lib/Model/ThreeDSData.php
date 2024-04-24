@@ -2,6 +2,8 @@
 
 namespace Assist\Model;
 
+use Assist\Helpers\ResponseHelper;
+
 class ThreeDSData
 {
     /**
@@ -24,12 +26,12 @@ class ThreeDSData
      */
     private string $eci;
 
-    public function __construct(string $version, string $alphaAuthResult, string $challenge, string $eci)
+    public function __construct(array $data)
     {
-        $this->version = $version;
-        $this->alphaAuthResult = $alphaAuthResult;
-        $this->challenge = $challenge;
-        $this->eci = $eci;
+        $this->version = $data[ResponseHelper::VERSION];
+        $this->alphaAuthResult = $data[ResponseHelper::ALPHA_AUTH_RESULT];
+        $this->challenge = $data[ResponseHelper::CHALLENGE];
+        $this->eci = $data[ResponseHelper::ECI];
     }
 
     /**

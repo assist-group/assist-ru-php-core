@@ -17,17 +17,22 @@ use Psr\Log\LoggerInterface;
 
 class BaseClient
 {
-    private Config $config;
+    protected Config $config;
     private HttpClientInterface $httpClient;
     private LoggerInterface|null $logger;
     private int $attempts;
     private int $timeout;
-    private string|null $bearerToken = null;
 
-
-
-    public function __construct(Config $config, HttpClientInterface $httpClient = null, ApiConfigLoaderInterface $configLoader = null)
-    {
+    /**
+     * @param Config $config
+     * @param HttpClientInterface|null $httpClient
+     * @param ApiConfigLoaderInterface|null $configLoader
+     */
+    public function __construct(
+        Config $config,
+        HttpClientInterface $httpClient = null,
+        ApiConfigLoaderInterface $configLoader = null
+    ) {
         $this->config = $config;
 
         if ($httpClient === null) {
@@ -95,17 +100,6 @@ class BaseClient
     }
 
     /**
-     * Устанавливает токен авторизации
-     *
-     * @param string $value
-     * @return void
-     */
-    public function setBearerToken(string $value): void
-    {
-        $this->bearerToken = $value;
-    }
-
-    /**
      * Выполнение запроса
      *
      * @param string $path
@@ -124,7 +118,6 @@ class BaseClient
         array $headers = array()
     ): ResponseInterface {
         $url = $this->config->getUrl() . $path;
-        $headers = $this->prepareHeaders($headers);
         $params['Format'] = 5;
         $response = $this->httpClient->request($method, $url, $params, $headers);
         $attempts = $this->attempts - 1;
@@ -155,21 +148,6 @@ class BaseClient
     }
 
     /**
-     * Подготовка заголовков
-     *
-     * @param array $headers
-     * @return array
-     */
-    private function prepareHeaders(array $headers): array
-    {
-        if ($this->bearerToken) {
-            $headers['Authorization'] = $this->bearerToken;
-        }
-
-        return $headers;
-    }
-
-    /**
      * Обработчик ошибок запроса
      *
      * @param ResponseInterface $response
@@ -188,7 +166,8 @@ class BaseClient
                 responseBody: $response->getBody()
             ),
             HttpHelper::CODE_FORBIDDEN => new ForbiddenException(
-                responseHeaders: $response->getHeaders(), responseBody: $response->getBody()
+                responseHeaders: $response->getHeaders(),
+                responseBody: $response->getBody()
             ),
             HttpHelper::CODE_UNAUTHORIZED => new UnauthorizedException(
                 responseHeaders: $response->getHeaders(),

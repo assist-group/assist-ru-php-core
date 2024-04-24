@@ -14,17 +14,19 @@ use function Pest\Faker\fake;
 use function PHPUnit\Framework\assertEquals;
 
 it('should set config', function () {
-    $config = ['test', 2];
+    $config = Mockery::mock(Config::class);
+    $clientConfig = ['test', 2];
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig')->times(2);
-    $baseClient = new BaseClient($httpClient);
+    $baseClient = new BaseClient($config, $httpClient);
 
-    $baseClient->setHttpClientConfig($config);
+    $baseClient->setHttpClientConfig($clientConfig);
 });
 
 it('should set logger', function () {
+    $config = Mockery::mock(Config::class);
     $logger = new Psr\Log\NullLogger();
-    $baseClient = new BaseClient();
+    $baseClient = new BaseClient($config);
 
     $baseClient->setLogger($logger);
 
@@ -32,8 +34,9 @@ it('should set logger', function () {
 });
 
 it('should set timeout', function () {
+    $config = Mockery::mock(Config::class);
     $sleep = 1000;
-    $baseClient = new BaseClient();
+    $baseClient = new BaseClient($config);
 
     $baseClient->setTimeout($sleep);
 
@@ -41,8 +44,9 @@ it('should set timeout', function () {
 });
 
 it('should set attempts', function () {
+    $config = Mockery::mock(Config::class);
     $attempts = 3;
-    $baseClient = new BaseClient();
+    $baseClient = new BaseClient($config);
 
     $baseClient->setAttempts($attempts);
 
@@ -50,71 +54,58 @@ it('should set attempts', function () {
 });
 
 it('should set to the default timeout', function () {
+    $config = Mockery::mock(Config::class);
     $defaultTimeout = Config::DEFAULT_REQUEST_TIMEOUT_BETWEEN_ATTEMPTS;
 
-    $baseClient = new BaseClient();
+    $baseClient = new BaseClient($config);
 
     assertEquals($defaultTimeout, getProperty($baseClient, 'timeout'));
 });
 
 it('should return an object implement the ResponseInterface', function () {
+    $config = Mockery::mock(Config::class);
+    $config->shouldReceive('getUrl')->once()->andReturn(fake()->url());
     $response = new Response(HttpHelper::CODE_OK);
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->once()->andReturn($response);
-    $baseClient = new BaseClient($httpClient);
-    $baseClient->setBearerToken(fake()->sha256());
+    $baseClient = new BaseClient($config, $httpClient);
+    $executeMethod = getMethod($baseClient, 'execute');
 
-    $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
+    $result = $executeMethod->invoke($baseClient, fake()->filePath(), [], HttpHelper::METHOD_GET);
 
     assertEquals($response, $result);
 });
 
 it('the count of requests must be equal to the set attempts', function () {
+    $config = Mockery::mock(Config::class);
+    $config->shouldReceive('getUrl')->once()->andReturn(fake()->url());
     $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
     $attempts = Config::DEFAULT_ATTEMPTS_COUNT + 2;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);
-    $baseClient = new BaseClient($httpClient);
+    $baseClient = new BaseClient($config, $httpClient);
     $baseClient->setAttempts($attempts);
-    $baseClient->setBearerToken(fake()->sha256());
+    $executeMethod = getMethod($baseClient, 'execute');
 
-    $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
+    $result = $executeMethod->invoke($baseClient, fake()->filePath(), [], HttpHelper::METHOD_GET);
 
     assertEquals($response, $result);
 });
 
 it('the count of requests must be equal to the default attempts, if the attempts have not been set manually', function () {
+    $config = Mockery::mock(Config::class);
+    $config->shouldReceive('getUrl')->once()->andReturn(fake()->url());
     $response = new Response(HttpHelper::CODE_INTERNAL_SERVER_ERROR);
     $attempts = Config::DEFAULT_ATTEMPTS_COUNT;
     $httpClient = Mockery::mock(HttpClient::class);
     $httpClient->shouldReceive('setConfig');
     $httpClient->shouldReceive('request')->times($attempts)->andReturn($response);
-    $baseClient = new BaseClient($httpClient);
-    $baseClient->setBearerToken(fake()->sha256());
+    $baseClient = new BaseClient($config, $httpClient);
+    $executeMethod = getMethod($baseClient, 'execute');
 
-    $result = $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
+    $result = $executeMethod->invoke($baseClient, fake()->filePath(), [], HttpHelper::METHOD_GET);
 
     assertEquals($response, $result);
-});
-
-it('should throw AuthException if the bearer token is not set', function () {
-    $httpClient = Mockery::mock(HttpClient::class);
-    $httpClient->shouldReceive('setConfig');
-    $baseClient = new BaseClient($httpClient);
-
-    $baseClient->execute(HttpHelper::METHOD_GET, fake()->url());
-})->throws(AuthException::class);
-
-it('should set auth token in headers', function () {
-    $token = fake()->sha256();
-    $headers = [];
-    $baseClient = new BaseClient();
-    $baseClient->setBearerToken($token);
-    $prepareHeaders = getMethod($baseClient, 'prepareHeaders');
-
-    $result = $prepareHeaders->invoke($baseClient, $headers);
-
-    assertEquals($token, $result['Authorization']);
 });

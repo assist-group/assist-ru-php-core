@@ -2,9 +2,9 @@
 
 namespace Assist\Response;
 
-trait ResponseTrait
+Class Response
 {
-    private array $responseData;
+    protected array $responseData;
 
     /**
      * Возвращает данные ответа

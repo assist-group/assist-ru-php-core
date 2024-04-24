@@ -1,8 +1,10 @@
 <?php
 
-namespace Assist\Model\Traits;
+namespace Assist\Model;
 
-trait Order
+use Assist\Helpers\ResponseHelper;
+
+class Order
 {
     /**
      * Уникальный номер заказа в системе АПК Ассист, расширенный формат.
@@ -47,7 +49,58 @@ trait Order
     /**
      * Курс валюты.
      */
-    private int $rate;
+    private ?int $rate;
+
+    /**
+     * @var Customer|null
+     */
+    private ?Customer $customer;
+
+    /**
+     * @var Operation[]
+     */
+    private array $operations;
+
+    /**
+     * @var CheckData|null
+     */
+    private ?CheckData $checkData;
+
+    /**
+     * Код ошибки
+     */
+    private ?string $errorCode;
+
+    public function __construct(array $data)
+    {
+        $this->setBillNumber($data[ResponseHelper::BILL_NUMBER]);
+        $this->setOrderNumber($data[ResponseHelper::ORDER_NUMBER]);
+        $this->setTestMode($data[ResponseHelper::TEST_MODE]);
+        $this->setOrderComment($data[ResponseHelper::ORDER_COMMENT]);
+        $this->setOrderAmount($data[ResponseHelper::ORDER_AMOUNT]);
+        $this->setOrderCurrency($data[ResponseHelper::ORDER_CURRENCY]);
+        $this->setOrderDate($data[ResponseHelper::ORDER_DATE]);
+        $this->setOrderState($data[ResponseHelper::ORDER_STATE]);
+        $this->setRate($data[ResponseHelper::RATE] ?? null);
+        $this->setErrorCode($data[ResponseHelper::ERROR_CODE] ?? null);
+
+        $customerData = $data[ResponseHelper::CUSTOMER] ?? null;
+        $customer = $customerData ? new Customer($customerData) : null;
+        $this->setCustomer($customer);
+
+        $checkDataArray = $data[ResponseHelper::CHECK_DATA] ?? null;
+        $checkData = $checkDataArray ? new CheckData($checkDataArray) : null;
+        $this->setCheckData($checkData);
+
+        $operations = $data[ResponseHelper::OPERATIONS];
+        $operationsResult = [];
+
+        foreach ($operations as $operation) {
+            $operationsResult[] = new Operation($operation);
+        }
+
+        $this->setOperations($operationsResult);
+    }
 
     /**
      * Получает уникальный номер заказа в системе.
@@ -168,18 +221,18 @@ trait Order
     /**
      * Возвращает курс валют
      *
-     * @return string
+     * @return string|null
      */
-    public function getRate(): string
+    public function getRate(): string|null
     {
         return $this->rate;
     }
 
     /**
-     * @param string $rate
+     * @param string|null $rate
      * @return void
      */
-    protected function setRate(string $rate): void
+    protected function setRate(string|null $rate): void
     {
         $this->rate = $rate;
     }
@@ -220,5 +273,77 @@ trait Order
     protected function setOrderState(string $orderState): void
     {
         $this->orderState = $orderState;
+    }
+
+    /**
+     * Возвращает код ошибки
+     *
+     * @return string|null
+     */
+    public function getErrorCode(): string|null
+    {
+        return $this->errorCode;
+    }
+
+    /**
+     * @param string|null $errorCode
+     * @return void
+     */
+    protected function setErrorCode(?string $errorCode): void
+    {
+        $this->errorCode = $errorCode;
+    }
+
+    /**
+     * Возвращает данные покупателя
+     *
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer|null $customer
+     * @return void
+     */
+    protected function setCustomer(?Customer $customer): void
+    {
+        $this->customer = $customer;
+    }
+
+    /**
+     * @return Operation[]
+     */
+    public function getOperations(): array
+    {
+        return $this->operations;
+    }
+
+    /**
+     * @param array $operations
+     * @return void
+     */
+    protected function setOperations(array $operations): void
+    {
+        $this->operations = $operations;
+    }
+
+    /**
+     * @return CheckData
+     */
+    public function getCheckData(): CheckData
+    {
+        return $this->checkData;
+    }
+
+    /**
+     * @param CheckData|null $checkData
+     * @return void
+     */
+    protected function setCheckData(CheckData|null $checkData): void
+    {
+        $this->checkData = $checkData;
     }
 }

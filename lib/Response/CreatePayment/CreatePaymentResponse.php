@@ -3,12 +3,10 @@
 namespace Assist\Response\CreatePayment;
 
 use Assist\Helpers\ResponseHelper;
-use Assist\Response\ResponseTrait;
+use Assist\Response\Response;
 
-class CreatePaymentResponse implements CreatePaymentResponseInterface
+class CreatePaymentResponse extends Response implements CreatePaymentResponseInterface
 {
-    use ResponseTrait;
-
     private string $url;
     private string $expirationTime;
     private string $orderState;

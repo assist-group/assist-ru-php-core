@@ -7,7 +7,7 @@ class ResponseHelper
     const FIRSTNAME = 'firstname';
     const LASTNAME = 'lastname';
     const MIDDLENAME = 'middlename';
-    const EMAIL = 'Email';
+    const EMAIL = 'email';
     const BILL_NUMBER = 'billnumber';
     const ORDER_NUMBER = 'ordernumber';
     const TEST_MODE = 'testmode';
@@ -66,4 +66,7 @@ class ResponseHelper
     const SUBJ_TYPE = 'subjtype';
     const URL = 'URL';
     const EXPIRATION_TIME = 'expirationtime';
+    const ERROR_CODE = 'errorcode';
+    const PAREQ = 'pareq';
+    const ACSURL = 'acsurl';
 }

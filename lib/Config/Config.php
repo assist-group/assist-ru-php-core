@@ -14,7 +14,6 @@ class Config
     public const DEFAULT_LANGUAGE = 'RU';
 
     private array $configProps;
-    private ?string $paymentType;
     private bool $isTestMode;
 
     private string $apiUrl;
@@ -72,7 +71,6 @@ class Config
         $this->shopId = $this->getPropValue('shop_id');
         $this->login = $this->getPropValue('login');
         $this->password = $this->getPropValue('password');
-        $this->paymentType = $this->getPropValue('payment_type');
         $this->nds = $this->getPropValue('nds');
         $this->taxSystem = $this->getPropValue('tax_system');
         $this->calculationMethod = $this->getPropValue('calculation_method');
@@ -96,5 +94,37 @@ class Config
     public function getUrl(): string
     {
         return $this->isTestMode ? $this->testApiUrl : $this->apiUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSuccessPaymentPageUrl(): ?string
+    {
+        return $this->successPaymentPageUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getErrorPaymentPageUrl(): ?string
+    {
+        return $this->errorPaymentPageUrl;
     }
 }

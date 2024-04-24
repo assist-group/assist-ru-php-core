@@ -13,18 +13,18 @@ Class CheckData
      * Значение X без разделителей, подписанное закрытым ключом АПК Ассист, закодированное в BASE64,
      * где X - billnumber,ordernumber,responsecode,orderamount,ordercurrency,meannumber,approvalcode,orderstate,packetdate
      */
-    private string $signature;
+    private ?string $signature;
 
     /**
      * Проверочное значение
      */
-    private string $checkValue;
+    private ?string $checkValue;
 
-    public function __construct(string $packetDate, string $signature, string $checkValue)
+    public function __construct(array $data)
     {
-        $this->packetDate = $packetDate;
-        $this->signature = $signature;
-        $this->checkValue = $checkValue;
+        $this->packetDate = $data['packetdate'];
+        $this->signature = $data['signature'] ?? null;
+        $this->checkValue = $data['checkvalue'] ?? null;
     }
 
     /**

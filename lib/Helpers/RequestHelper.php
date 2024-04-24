@@ -19,6 +19,8 @@ class RequestHelper
     public const PARAM_ORDER_NUMBER = 'OrderNumber';
     public const PARAM_ORDER_AMOUNT = 'OrderAmount';
     public const PARAM_CHEQUE_ITEMS = 'ChequeItems';
+    public const PARAM_URL_RETURN_OK = 'URL_RETURN_OK';
+    public const PARAM_URL_RETURN_NO = 'URL_RETURN_NO';
 
     public const PATH_CREATE_PAYMENT = '/pay/payrequest.cfm';
     public const PATH_CANCEL = '/cancel/wscancel.cfm';
