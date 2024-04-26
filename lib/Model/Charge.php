@@ -77,6 +77,8 @@ class Charge
     }
 
     /**
+     * Возвращает номер заказа
+     *
      * @return string
      */
     public function getOrderNumber(): string
@@ -85,6 +87,8 @@ class Charge
     }
 
     /**
+     * Возвращает код ответа
+     *
      * @return string
      */
     public function getResponseCode(): string
@@ -93,6 +97,8 @@ class Charge
     }
 
     /**
+     * Возвращает рекомендацию
+     *
      * @return string
      */
     public function getRecommendation(): string
@@ -101,6 +107,8 @@ class Charge
     }
 
     /**
+     * Возвращает сообщение
+     *
      * @return string
      */
     public function getMessage(): string
@@ -109,6 +117,8 @@ class Charge
     }
 
     /**
+     * Возвращает комментарий к заказу
+     *
      * @return string
      */
     public function getOrderComment(): string
@@ -117,6 +127,8 @@ class Charge
     }
 
     /**
+     * Возвращает дату заказа
+     *
      * @return string
      */
     public function getOrderDate(): string
@@ -125,6 +137,8 @@ class Charge
     }
 
     /**
+     * Возвращает сумму
+     *
      * @return float
      */
     public function getAmount(): float
@@ -133,6 +147,8 @@ class Charge
     }
 
     /**
+     * Возвращает валюту
+     *
      * @return string
      */
     public function getCurrency(): string
@@ -141,6 +157,8 @@ class Charge
     }
 
     /**
+     * Возвращает тип платёжного средства
+     *
      * @return string
      */
     public function getMeanTypeName(): string
@@ -149,6 +167,8 @@ class Charge
     }
 
     /**
+     * Возвращает номер платёжного средства
+     *
      * @return string
      */
     public function getMeanNumber(): string
@@ -157,6 +177,8 @@ class Charge
     }
 
     /**
+     * Возвращает банк-эмитент
+     *
      * @return string
      */
     public function getIssueBank(): string
@@ -165,6 +187,8 @@ class Charge
     }
 
     /**
+     * Возвращает страну банка
+     *
      * @return string
      */
     public function getBankCountry(): string
@@ -173,6 +197,8 @@ class Charge
     }
 
     /**
+     * Возвращает курс валют
+     *
      * @return int
      */
     public function getRate(): int
@@ -181,6 +207,8 @@ class Charge
     }
 
     /**
+     * Возвращает код подтверждения транзакции
+     *
      * @return string
      */
     public function getApprovalCode(): string
@@ -189,6 +217,8 @@ class Charge
     }
 
     /**
+     * Возвращает подтип платёжного средства
+     *
      * @return string
      */
     public function getMeanSubType(): string
@@ -197,6 +227,8 @@ class Charge
     }
 
     /**
+     * Возвращает держателя карты
+     *
      * @return string
      */
     public function getCardHolder(): string
@@ -205,6 +237,8 @@ class Charge
     }
 
     /**
+     * Возвращает дату окончания действия карты
+     *
      * @return string
      */
     public function getCardExpirationDate(): string
@@ -213,6 +247,8 @@ class Charge
     }
 
     /**
+     * Возвращает тип протокола
+     *
      * @return string
      */
     public function getProtocolTypeName(): string
@@ -221,6 +257,8 @@ class Charge
     }
 
     /**
+     * Возвращает признак тестовый режим
+     *
      * @return int
      */
     public function getTestMode(): int
@@ -229,6 +267,8 @@ class Charge
     }
 
     /**
+     * Возвращает клиентское сообщение
+     *
      * @return string
      */
     public function getCustomerMessage(): string
@@ -237,6 +277,8 @@ class Charge
     }
 
     /**
+     * Возвращает статус заказа
+     *
      * @return string
      */
     public function getOrderState(): string
@@ -245,6 +287,8 @@ class Charge
     }
 
     /**
+     * Возвращает процессинг
+     *
      * @return string
      */
     public function getProcessingName(): string
@@ -253,6 +297,8 @@ class Charge
     }
 
     /**
+     * Возвращает тип операции
+     *
      * @return int
      */
     public function getOperationType(): int
@@ -261,6 +307,8 @@ class Charge
     }
 
     /**
+     * Возвращает номер billnumber
+     *
      * @return string
      */
     public function getBillNumber(): string
@@ -269,6 +317,8 @@ class Charge
     }
 
     /**
+     * Возвращает сумму
+     *
      * @return int
      */
     public function getOrderAmount(): int
@@ -277,6 +327,8 @@ class Charge
     }
 
     /**
+     * Возвращает валюту
+     *
      * @return string
      */
     public function getOrderCurrency(): string
@@ -285,6 +337,8 @@ class Charge
     }
 
     /**
+     * Возвращает дату ответа
+     *
      * @return string
      */
     public function getPacketDate(): string
@@ -293,6 +347,8 @@ class Charge
     }
 
     /**
+     * Возвращает подпись заказа
+     *
      * @return string
      */
     public function getSignature(): string
@@ -309,6 +365,8 @@ class Charge
     }
 
     /**
+     * Возвращает покупателя
+     *
      * @return Customer|null
      */
     public function getCustomer(): Customer|null

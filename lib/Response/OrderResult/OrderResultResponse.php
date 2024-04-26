@@ -33,6 +33,8 @@ class OrderResultResponse extends Response implements OrderResultResponseInterfa
     }
 
     /**
+     * Возвращает заказы
+     *
      * @return Order[]
      */
     public function getOrders(): array

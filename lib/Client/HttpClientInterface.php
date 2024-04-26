@@ -14,7 +14,15 @@ interface HttpClientInterface
         array $headers = array()
     ): ResponseInterface;
 
-    public function setConfig(array $clientConfig);
+    /**
+     * @param array $clientConfig
+     * @return void
+     */
+    public function setConfig(array $clientConfig): void;
 
-    public function setLogger(LoggerInterface|null $logger);
+    /**
+     * @param LoggerInterface|null $logger
+     * @return void
+     */
+    public function setLogger(LoggerInterface|null $logger): void;
 }

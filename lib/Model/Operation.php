@@ -6,125 +6,29 @@ use Assist\Helpers\ResponseHelper;
 
 class Operation
 {
-    /**
-     * Тип операции.
-     */
     private int $operationType;
-
-    /**
-     * Сумма операции.
-     */
     private int|float $amount;
-
-    /**
-     * Валюта операции.
-     */
     private string $currency;
-
-    /**
-     * IP-адрес плательщика.
-     */
-    private string $ipaddress;
-
-    /**
-     * Тип платежного средства.
-     */
+    private string $ipAddress;
     private ?string $meanTypeName;
-
-    /**
-     * Подтип платежного средства.
-     */
     private string $meanSubType;
-
-    /**
-     * Номер платежного средства.
-     */
     private string $meanNumber;
-
-    /**
-     * Держатель платежного средства.
-     */
     private string $cardHolder;
-
-    /**
-     * Срок действия карты.
-     */
-    private string $cardExpirationDate;
-
-    /**
-     * Название банка-эмитента.
-     */
+    private ?string $cardExpirationDate;
     private string $issueBank;
-
-    /**
-     * Страна банка-эмитента.
-     */
     private string $bankCountry;
-
-    /**
-     * Код возврата.
-     */
     private string $responseCode;
-
-    /**
-     * Сообщение о результате операции.
-     */
     private string $message;
-
-
-    /**
-     * Сообщение о результате для покупателя.
-     */
     private string $customerMessage;
-
-    /**
-     * Рекомендация.
-     */
     private string $recommendation;
-
-    /**
-     * Код авторизации.
-     */
     private string $approvalCode;
-
-    /**
-     * Протокол.
-     */
     private string $protocolTypeName;
-
-    /**
-     * Процессинг.
-     */
     private string $processingName;
-
-    /**
-     * Номер финансовой транзакции, отправляемый в процессинг
-     */
-    private string $slipno;
-
-    /**
-     * Результат авторизации по 3DSecure (Y - успешно, N - неуспешно, A - Attempt, U – неизвестно, R- отказ, C – не завершено по каким-либо причинам, E - ошибка)
-     */
+    private ?string $slipno;
     private ?string $authResult;
-
-    /**
-     * Результат проверки вовлеченности карты (1 – вовлечена, 0 – не вовлечена, -1 – неизвестно, null – ошибка при определении вовлеченности)
-     */
     private ?string $authRequired;
-
-    /**
-     * Код ошибки
-     */
     private ?string $errorCode;
-
-    /**
-     * @var ThreeDSData|null
-     */
     private ?ThreeDSData $threeDSData;
-
-    /**
-     * @var ChequeItem|null
-     */
     private ?ChequeItem $chequeItem;
 
     public function __construct(array $operationData)
@@ -138,23 +42,26 @@ class Operation
         $chequeItemData = $operationData[ResponseHelper::CHEQUE_ITEM] ?? null;
         $this->chequeItem = $chequeItemData ? new ChequeItem($chequeItemData) : null;
 
-        $this->setOperationType($operationData[ResponseHelper::OPERATION_TYPE]);
-        $this->setAmount($operationData[ResponseHelper::AMOUNT]);
-        $this->setCurrency($operationData[ResponseHelper::CURRENCY]);
-        $this->setIpAddress($operationData[ResponseHelper::IP_ADDRESS]);
-        $this->setMeanTypeName($operationData[ResponseHelper::MEAN_TYPE_NAME] ?? null);
-        $this->setMeanSubType($operationData[ResponseHelper::MEAN_SUB_TYPE]);
-        $this->setMeanNumber($operationData[ResponseHelper::MEAN_NUMBER]);
-        $this->setCardHolder($operationData[ResponseHelper::CARD_EXPIRATION_DATE]);
-        $this->setIssueBank($operationData[ResponseHelper::ISSUE_BANK]);
-        $this->setBankCountry($operationData[ResponseHelper::BANK_COUNTRY]);
-        $this->setResponseCode($operationData[ResponseHelper::RESPONSE_CODE]);
-        $this->setMessage($operationData[ResponseHelper::MESSAGE]);
-        $this->setCustomerMessage($operationData[ResponseHelper::CUSTOMER_MESSAGE]);
-        $this->setRecommendation($operationData[ResponseHelper::RECOMMENDATION]);
-        $this->setApprovalCode($operationData[ResponseHelper::APPROVAL_CODE] ?? null);
-        $this->setProtocolTypeName($operationData[ResponseHelper::PROTOCOL_TYPE_NAME]);
-        $this->setProcessingName($operationData[ResponseHelper::PROCESSING_NAME]);
+        $this->operationType = $operationData[ResponseHelper::OPERATION_TYPE];
+        $this->amount = $operationData[ResponseHelper::AMOUNT];
+        $this->currency = $operationData[ResponseHelper::CURRENCY];
+        $this->ipAddress = $operationData[ResponseHelper::IP_ADDRESS];
+        $this->meanTypeName = $operationData[ResponseHelper::MEAN_TYPE_NAME] ?? null;
+        $this->meanSubType = $operationData[ResponseHelper::MEAN_SUB_TYPE];
+        $this->meanNumber = $operationData[ResponseHelper::MEAN_NUMBER];
+        $this->cardHolder = $operationData[ResponseHelper::CARD_EXPIRATION_DATE];
+        $this->issueBank = $operationData[ResponseHelper::ISSUE_BANK];
+        $this->bankCountry = $operationData[ResponseHelper::BANK_COUNTRY];
+        $this->responseCode = $operationData[ResponseHelper::RESPONSE_CODE];
+        $this->message = $operationData[ResponseHelper::MESSAGE];
+        $this->customerMessage = $operationData[ResponseHelper::CUSTOMER_MESSAGE];
+        $this->recommendation = $operationData[ResponseHelper::RECOMMENDATION];
+        $this->approvalCode = $operationData[ResponseHelper::APPROVAL_CODE] ?? null;
+        $this->protocolTypeName = $operationData[ResponseHelper::PROTOCOL_TYPE_NAME];
+        $this->processingName = $operationData[ResponseHelper::PROCESSING_NAME];
+        $this->cardExpirationDate = $operationData[ResponseHelper::CARD_EXPIRATION_DATE] ?? null;
+        $this->errorCode = $operationData[ResponseHelper::ERROR_CODE] ?? null;
+        $this->slipno = $operationData[ResponseHelper::SLIPNO] ?? null;
     }
 
 
@@ -169,15 +76,6 @@ class Operation
     }
 
     /**
-     * @param string $operationType
-     * @return void
-     */
-    protected function setOperationType(string $operationType): void
-    {
-        $this->operationType = $operationType;
-    }
-
-    /**
      * Возвращает сумму операции
      *
      * @return string
@@ -185,15 +83,6 @@ class Operation
     public function getAmount(): string
     {
         return $this->amount;
-    }
-
-    /**
-     * @param string $amount
-     * @return void
-     */
-    protected function setAmount(string $amount): void
-    {
-        $this->amount = $amount;
     }
 
     /**
@@ -207,31 +96,13 @@ class Operation
     }
 
     /**
-     * @param string $currency
-     * @return void
-     */
-    protected function setCurrency(string $currency): void
-    {
-        $this->currency = $currency;
-    }
-
-    /**
      * Возвращает IP-адрес плательщика
      *
      * @return string
      */
-    public function getIpaddress(): string
+    public function getIpAddress(): string
     {
-        return $this->ipaddress;
-    }
-
-    /**
-     * @param string $ipaddress
-     * @return void
-     */
-    protected function setIpaddress(string $ipaddress): void
-    {
-        $this->ipaddress = $ipaddress;
+        return $this->ipAddress;
     }
 
     /**
@@ -245,15 +116,6 @@ class Operation
     }
 
     /**
-     * @param string|null $meanTypeName
-     * @return void
-     */
-    protected function setMeanTypeName(?string $meanTypeName): void
-    {
-        $this->meanTypeName = $meanTypeName;
-    }
-
-    /**
      * Возвращает подтип платежного средства
      *
      * @return string
@@ -261,15 +123,6 @@ class Operation
     public function getMeanSubType(): string
     {
         return $this->meanSubType;
-    }
-
-    /**
-     * @param string $meanSubSype
-     * @return void
-     */
-    protected function setMeanSubType(string $meanSubSype): void
-    {
-        $this->meanSubType = $meanSubSype;
     }
 
     /**
@@ -283,15 +136,6 @@ class Operation
     }
 
     /**
-     * @param string $meanNumber
-     * @return void
-     */
-    protected function setMeanNumber(string $meanNumber): void
-    {
-        $this->meanNumber = $meanNumber;
-    }
-
-    /**
      * Возвращает держателя платежного средства
      *
      * @return string
@@ -302,31 +146,13 @@ class Operation
     }
 
     /**
-     * @param string $cardHolder
-     * @return void
-     */
-    protected function setCardHolder(string $cardHolder): void
-    {
-        $this->cardHolder = $cardHolder;
-    }
-
-    /**
      * Возвращает срок действия карты
      *
-     * @return string
+     * @return string|null
      */
-    public function getCardExpirationDate(): string
+    public function getCardExpirationDate(): ?string
     {
         return $this->cardExpirationDate;
-    }
-
-    /**
-     * @param string $cardExpirationDate
-     * @return void
-     */
-    protected function setCardExpirationDate(string $cardExpirationDate): void
-    {
-        $this->cardExpirationDate = $cardExpirationDate;
     }
 
     /**
@@ -340,15 +166,6 @@ class Operation
     }
 
     /**
-     * @param string $issueBank
-     * @return void
-     */
-    protected function setIssueBank(string $issueBank): void
-    {
-        $this->issueBank = $issueBank;
-    }
-
-    /**
      * Возвращает страну банка-эмитента
      *
      * @return string
@@ -356,15 +173,6 @@ class Operation
     public function getBankCountry(): string
     {
         return $this->bankCountry;
-    }
-
-    /**
-     * @param string $bankCountry
-     * @return void
-     */
-    protected function setBankCountry(string $bankCountry): void
-    {
-        $this->bankCountry = $bankCountry;
     }
 
     /**
@@ -378,15 +186,6 @@ class Operation
     }
 
     /**
-     * @param string $responseCode
-     * @return void
-     */
-    protected function setResponseCode(string $responseCode): void
-    {
-        $this->responseCode = $responseCode;
-    }
-
-    /**
      * Возвращает сообщение о результате операции
      *
      * @return string
@@ -394,15 +193,6 @@ class Operation
     public function getMessage(): string
     {
         return $this->message;
-    }
-
-    /**
-     * @param string $message
-     * @return void
-     */
-    protected function setMessage(string $message): void
-    {
-        $this->message = $message;
     }
 
     /**
@@ -416,15 +206,6 @@ class Operation
     }
 
     /**
-     * @param string $customerMessage
-     * @return void
-     */
-    protected function setCustomerMessage(string $customerMessage): void
-    {
-        $this->customerMessage = $customerMessage;
-    }
-
-    /**
      * Возвращает рекомендацию
      *
      * @return string
@@ -432,15 +213,6 @@ class Operation
     public function getRecommendation(): string
     {
         return $this->recommendation;
-    }
-
-    /**
-     * @param string $recommendation
-     * @return void
-     */
-    protected function setRecommendation(string $recommendation): void
-    {
-        $this->recommendation = $recommendation;
     }
 
     /**
@@ -454,15 +226,6 @@ class Operation
     }
 
     /**
-     * @param string $approvalCode
-     * @return void
-     */
-    protected function setApprovalCode(string $approvalCode): void
-    {
-        $this->approvalCode = $approvalCode;
-    }
-
-    /**
      * Возвращает протокол
      *
      * @return string
@@ -470,15 +233,6 @@ class Operation
     public function getProtocolTypeName(): string
     {
         return $this->protocolTypeName;
-    }
-
-    /**
-     * @param string $protocolTypeName
-     * @return void
-     */
-    protected function setProtocolTypeName(string $protocolTypeName): void
-    {
-        $this->protocolTypeName = $protocolTypeName;
     }
 
     /**
@@ -492,15 +246,6 @@ class Operation
     }
 
     /**
-     * @param string $processingName
-     * @return void
-     */
-    protected function setProcessingName(string $processingName): void
-    {
-        $this->processingName = $processingName;
-    }
-
-    /**
      * Возвращает номер финансовой транзакции, отправляемый в процессинг
      *
      * @return string
@@ -508,15 +253,6 @@ class Operation
     public function getSlipno(): string
     {
         return $this->slipno;
-    }
-
-    /**
-     * @param string $slipno
-     * @return void
-     */
-    protected function setSlipno(string $slipno): void
-    {
-        $this->slipno = $slipno;
     }
 
     /**
@@ -530,15 +266,6 @@ class Operation
     }
 
     /**
-     * @param string $errorCode
-     * @return void
-     */
-    protected function setErrorCode(string $errorCode): void
-    {
-        $this->errorCode = $errorCode;
-    }
-
-    /**
      * Возвращает результат авторизации по 3DSecure
      *
      * @return string
@@ -546,15 +273,6 @@ class Operation
     public function getAuthResult(): string
     {
         return $this->authResult;
-    }
-
-    /**
-     * @param string $authResult
-     * @return void
-     */
-    protected function setAuthResult(string $authResult): void
-    {
-        $this->authResult = $authResult;
     }
 
     /**
@@ -568,15 +286,8 @@ class Operation
     }
 
     /**
-     * @param string $authRequired
-     * @return void
-     */
-    protected function setAuthRequired(string $authRequired): void
-    {
-        $this->authRequired = $authRequired;
-    }
-
-    /**
+     * Возвращает ThreeDSData
+     *
      * @return ThreeDSData
      */
     public function getThreeDSData(): ThreeDSData
@@ -585,28 +296,12 @@ class Operation
     }
 
     /**
-     * @param ThreeDSData $threeDSData
-     * @return void
-     */
-    protected function setThreeDSData(ThreeDSData $threeDSData): void
-    {
-        $this->threeDSData = $threeDSData;
-    }
-
-    /**
+     * Возвращает чек
+     *
      * @return ChequeItem
      */
     public function getChequeItem(): ChequeItem
     {
         return $this->chequeItem;
-    }
-
-    /**
-     * @param ChequeItem $chequeItem
-     * @return void
-     */
-    protected function setChequeItem(ChequeItem $chequeItem): void
-    {
-        $this->chequeItem = $chequeItem;
     }
 }

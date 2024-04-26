@@ -16,6 +16,9 @@ class CancelRequest extends AbstractRequest
 
     protected string $path = RequestHelper::PATH_CANCEL;
 
+    /**
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         $this->params = $params;

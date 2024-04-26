@@ -40,6 +40,8 @@ class CancelResponse extends Response implements ResponseInterface
     }
 
     /**
+     * Возвращает данные заказа
+     *
      * @return Order
      */
     public function getOrder(): Order
@@ -48,6 +50,8 @@ class CancelResponse extends Response implements ResponseInterface
     }
 
     /**
+     * Возвращает CheckData
+     *
      * @return CheckData|null
      */
     public function getCheckData(): ?CheckData

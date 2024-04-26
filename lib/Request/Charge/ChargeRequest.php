@@ -16,6 +16,9 @@ class ChargeRequest extends AbstractRequest
 
     protected string $path = RequestHelper::PATH_CHARGE;
 
+    /**
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         $this->params = $params;

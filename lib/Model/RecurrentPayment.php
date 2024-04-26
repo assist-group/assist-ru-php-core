@@ -24,8 +24,8 @@ class RecurrentPayment extends Order
     private string $processingName;
     private string $packetDate;
     private string $signature;
-    private string $pareq;
-    private string $acsurl;
+    private ?string $pareq;
+    private ?string $acsurl;
 
     /**
      * @param array $data
@@ -52,11 +52,13 @@ class RecurrentPayment extends Order
         $this->processingName = $data[ResponseHelper::PROCESSING_NAME];
         $this->packetDate = $data[ResponseHelper::PACKET_DATE];
         $this->signature = $data[ResponseHelper::SIGNATURE];
-        $this->pareq = $data[ResponseHelper::PAREQ];
-        $this->acsurl = $data[ResponseHelper::ACSURL];
+        $this->pareq = $data[ResponseHelper::PAREQ] ?? null;
+        $this->acsurl = $data[ResponseHelper::ACSURL] ?? null;
     }
 
     /**
+     * Возвращает тип операции
+     *
      * @return int
      */
     public function getOperationType(): int
@@ -65,6 +67,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает сумму
+     *
      * @return int|float
      */
     public function getAmount(): int|float
@@ -73,6 +77,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает валюту
+     *
      * @return string
      */
     public function getCurrency(): string
@@ -81,6 +87,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает тип платёжного средства
+     *
      * @return string
      */
     public function getMeanTypeName(): string
@@ -89,6 +97,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает подтип платёжного средства
+     *
      * @return string
      */
     public function getMeanSubType(): string
@@ -97,6 +107,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает держателя карты
+     *
      * @return string
      */
     public function getCardHolder(): string
@@ -105,6 +117,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает дату окончания действия карты
+     *
      * @return string
      */
     public function getCardExpirationDate(): string
@@ -113,6 +127,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает банк-эмитент
+     *
      * @return string
      */
     public function getIssueBank(): string
@@ -121,6 +137,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает страну банка
+     *
      * @return string
      */
     public function getBankCountry(): string
@@ -129,6 +147,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает код ответа
+     *
      * @return string
      */
     public function getResponseCode(): string
@@ -137,6 +157,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает сообщение
+     *
      * @return string
      */
     public function getMessage(): string
@@ -145,6 +167,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает клиентское сообщение
+     *
      * @return string
      */
     public function getCustomerMessage(): string
@@ -153,6 +177,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает рекомендацию
+     *
      * @return string
      */
     public function getRecommendation(): string
@@ -161,6 +187,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает код подтверждения транзакции
+     *
      * @return string
      */
     public function getApprovalCode(): string
@@ -169,6 +197,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает тип протокола
+     *
      * @return string
      */
     public function getProtocolTypeName(): string
@@ -177,6 +207,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает процессинг
+     *
      * @return string
      */
     public function getProcessingName(): string
@@ -185,6 +217,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает дату ответа
+     *
      * @return string
      */
     public function getPacketDate(): string
@@ -193,6 +227,8 @@ class RecurrentPayment extends Order
     }
 
     /**
+     * Возвращает подпись заказа
+     *
      * @return string
      */
     public function getSignature(): string

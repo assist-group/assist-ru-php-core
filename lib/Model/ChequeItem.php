@@ -40,6 +40,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает идентификатор
+     *
      * @return string
      */
     public function getId(): string
@@ -48,6 +50,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает общая сумма по количеству
+     *
      * @return int
      */
     public function getAmount(): int
@@ -56,6 +60,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает продукт
+     *
      * @return string
      */
     public function getProduct(): string
@@ -64,6 +70,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает название
+     *
      * @return string
      */
     public function getName(): string
@@ -72,6 +80,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает цену
+     *
      * @return int
      */
     public function getPrice(): int
@@ -80,6 +90,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает количество
+     *
      * @return int
      */
     public function getQuantity(): int
@@ -88,6 +100,8 @@ class ChequeItem
     }
 
     /**
+     * Возвращает налог
+     *
      * @return string
      */
     public function getTax(): string

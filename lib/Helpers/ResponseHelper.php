@@ -19,7 +19,6 @@ class ResponseHelper
     const CHECK_DATA = 'checkdata';
     const PACKET_DATE = 'packetdate';
     const SIGNATURE = 'signature';
-    const CHECK_VALUE = 'checkvalue';
     const OPERATION_TYPE = 'operationtype';
     const AMOUNT = 'amount';
     const CURRENCY = 'currency';

@@ -4,20 +4,8 @@ namespace Assist\Model;
 
 Class CheckData
 {
-    /**
-     * Дата формирования запроса по Гринвичу (GMT).
-     */
     private string $packetDate;
-
-    /**
-     * Значение X без разделителей, подписанное закрытым ключом АПК Ассист, закодированное в BASE64,
-     * где X - billnumber,ordernumber,responsecode,orderamount,ordercurrency,meannumber,approvalcode,orderstate,packetdate
-     */
     private ?string $signature;
-
-    /**
-     * Проверочное значение
-     */
     private ?string $checkValue;
 
     public function __construct(array $data)

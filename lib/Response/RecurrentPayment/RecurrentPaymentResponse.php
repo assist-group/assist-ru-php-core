@@ -28,6 +28,8 @@ class RecurrentPaymentResponse extends Response implements RecurrentPaymentRespo
     }
 
     /**
+     * Возвращает рекуррентный платёж
+     *
      * @return RecurrentPayment
      */
     public function getRecurrentPayment(): RecurrentPayment

@@ -23,6 +23,9 @@ class CreatePaymentRequest extends AbstractRequest
 
     protected string $path = RequestHelper::PATH_CREATE_PAYMENT;
 
+    /**
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         $this->params = $params;

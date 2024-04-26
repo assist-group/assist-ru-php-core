@@ -36,21 +36,44 @@ class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param string $successPaymentPageUrl
-     * @return void
+     * @return string|bool
      */
-    public function setSuccessPaymentPageUrl(string $successPaymentPageUrl): void
+    public function getMerchantId(): string|bool
     {
-        $this->params[RequestHelper::PARAM_URL_RETURN_OK] = $successPaymentPageUrl;
+        return $this->params[RequestHelper::PARAM_MERCHANT_ID] ?? false;
     }
 
     /**
-     * @param string $errorPaymentPageUrl
+     * @return string|bool
+     */
+    public function getLoginParam(): string|bool
+    {
+        return $this->params[RequestHelper::PARAM_LOGIN] ?? false;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getPasswordParam(): string|bool
+    {
+        return $this->params[RequestHelper::PARAM_PASSWORD] ?? false;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getLanguageParam(): string|bool
+    {
+        return $this->params[RequestHelper::PARAM_LANGUAGE] ?? false;
+    }
+
+    /**
+     * @param string $merchantId
      * @return void
      */
-    public function setErrorPaymentPageUrl(string $errorPaymentPageUrl): void
+    public function setMerchantId(string $merchantId): void
     {
-        $this->params[RequestHelper::PARAM_URL_RETURN_NO] = $errorPaymentPageUrl;
+        $this->params[RequestHelper::PARAM_MERCHANT_ID] = $merchantId;
     }
 
     /**
@@ -69,6 +92,15 @@ class AbstractRequest implements RequestInterface
     public function setPassword(string $password): void
     {
         $this->params[RequestHelper::PARAM_PASSWORD] = $password;
+    }
+
+    /**
+     * @param string $language
+     * @return void
+     */
+    public function setLanguage(string $language): void
+    {
+        $this->params[RequestHelper::PARAM_LANGUAGE] = $language;
     }
 
     /**

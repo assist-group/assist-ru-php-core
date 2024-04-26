@@ -6,25 +6,11 @@ use Assist\Helpers\ResponseHelper;
 
 Class Customer
 {
-    /**
-     * Имя плательщика.
-     */
     private ?string $firstname;
-
-    /**
-     * Фамилия плательщика.
-     */
     private ?string $lastname;
-
-    /**
-     * Отчество плательщика.
-     */
     private ?string $middlename;
-
-    /**
-     * Email плательщика.
-     */
     private ?string $email;
+    private ?string $ipAddress;
 
     /**
      * @param array $data
@@ -35,37 +21,56 @@ Class Customer
         $this->lastname = $data[ResponseHelper::LASTNAME] ?? null;
         $this->middlename = $data[ResponseHelper::MIDDLENAME] ?? null;
         $this->email = $data[ResponseHelper::EMAIL] ?? null;
+        $this->ipAddress = $data[ResponseHelper::IP_ADDRESS] ?? null;
     }
 
     /**
-     * @return string
+     * Возвращает имя
+     *
+     * @return string|null
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
     /**
-     * @return string
+     * Возвращает фамилию
+     *
+     * @return string|null
      */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
     /**
-     * @return string
+     * Возвращает отчество
+     *
+     * @return string|null
      */
-    public function getMiddlename(): string
+    public function getMiddlename(): ?string
     {
         return $this->middlename;
     }
 
     /**
-     * @return string
+     * Возвращает email
+     *
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
+    }
+
+    /**
+     * Возвращает IP-адрес
+     *
+     * @return string|null
+     */
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
     }
 }
