@@ -2,6 +2,8 @@
 
 namespace Assist\Config;
 
+use Assist\Helpers\ConfigHelper;
+
 class Config
 {
     public const DEFAULT_API_URL = 'https://payments.paysecure.ru';
@@ -35,21 +37,21 @@ class Config
     private function setProps(): void
     {
         $this->apiUrl = $this->getPropValue(
-            'api_url',
+            ConfigHelper::PARAM_API_URL,
             self::DEFAULT_API_URL
         );
         $this->testApiUrl = $this->getPropValue(
-            'test_api_url',
+            ConfigHelper::PARAM_TEST_API_URL,
             self::DEFAULT_TEST_API_URL
         );
         $this->isTestMode = $this->getPropValue(
-            'test_mode',
+            ConfigHelper::PARAM_TEST_MODE,
             self::DEFAULT_TEST_MODE_VALUE
         );
-        $this->lang = $this->getPropValue('lang', self::DEFAULT_LANGUAGE);
-        $this->merchantId = $this->getPropValue('merchant_id');
-        $this->login = $this->getPropValue('login');
-        $this->password = $this->getPropValue('password');
+        $this->lang = $this->getPropValue(ConfigHelper::PARAM_LANG, self::DEFAULT_LANGUAGE);
+        $this->merchantId = $this->getPropValue(ConfigHelper::PARAM_MERCHANT_ID);
+        $this->login = $this->getPropValue(ConfigHelper::PARAM_LOGIN);
+        $this->password = $this->getPropValue(ConfigHelper::PARAM_PASSWORD);
     }
 
     /**

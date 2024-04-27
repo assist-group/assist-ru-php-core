@@ -3,9 +3,9 @@
 namespace Assist\Request\OrderResult;
 
 use Assist\Helpers\RequestHelper;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 
-class OrderResultRequest extends AbstractRequest
+class OrderResultRequest extends Request
 {
     private const REQUIRED_PARAMETERS = [
         RequestHelper::PARAM_MERCHANT_ID,

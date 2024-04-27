@@ -163,19 +163,19 @@ class BaseClient
         throw match ($response->getStatusCode()) {
             HttpHelper::CODE_BAD_REQUEST => new BadRequestException(
                 responseHeaders: $response->getHeaders(),
-                responseBody: $response->getBody()
+                responseBody: (string)$response->getBody()
             ),
             HttpHelper::CODE_FORBIDDEN => new ForbiddenException(
                 responseHeaders: $response->getHeaders(),
-                responseBody: $response->getBody()
+                responseBody: (string)$response->getBody()
             ),
             HttpHelper::CODE_UNAUTHORIZED => new UnauthorizedException(
                 responseHeaders: $response->getHeaders(),
-                responseBody: $response->getBody()
+                responseBody: (string)$response->getBody()
             ),
             HttpHelper::CODE_INTERNAL_SERVER_ERROR => new InternalServerErrorException(
                 responseHeaders: $response->getHeaders(),
-                responseBody: $response->getBody()
+                responseBody: (string)$response->getBody()
             ),
             default => new HttpException(
                 'Unexpected response status code',

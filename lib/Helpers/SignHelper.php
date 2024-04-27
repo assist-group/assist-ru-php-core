@@ -2,6 +2,10 @@
 
 namespace Assist\Helpers;
 
+use ParagonIE\EasyRSA\EasyRSA;
+use ParagonIE\EasyRSA\Exception\InvalidKeyException;
+use ParagonIE\EasyRSA\PrivateKey;
+
 class SignHelper
 {
     /**
@@ -16,7 +20,7 @@ class SignHelper
      *
      * @return string
      */
-    public static function getSign(
+    private static function getSignString(
         int $merchantId,
         string $orderNumber,
         string $orderAmount,
@@ -50,5 +54,64 @@ class SignHelper
         }
 
         return implode(';', $signParams);
+    }
+
+    /**
+     * Формирует подпись
+     *
+     * Параметры для формирования подписи передаются в массиве $params в формате ключ => значение
+     *
+     * Обязательные параметры: Merchant_ID, OrderNumber, OrderAmount, OrderCurrency
+     * Необязательные параметры: OrderMaxPoints, CustomerNumber, Disable3DS, Prepayment
+     *
+     * @param array $params
+     * @param PrivateKey $privateKey
+     * @return string
+     * @throws InvalidKeyException
+     */
+    public static function getSignature(array $params, PrivateKey $privateKey): string
+    {
+        $string = self::getSignString(
+            $params[RequestHelper::PARAM_MERCHANT_ID],
+            $params[RequestHelper::PARAM_ORDER_NUMBER],
+            $params[RequestHelper::PARAM_ORDER_AMOUNT],
+            $params[RequestHelper::PARAM_ORDER_CURRENCY],
+            $params[RequestHelper::PARAM_ORDER_MAX_POINTS] ?? null,
+            $params[RequestHelper::PARAM_CUSTOMER_NUMBER] ?? null,
+            $params[RequestHelper::PARAM_DISABLE_3DS] ?? null,
+            $params[RequestHelper::PARAM_PREPAYMENT] ?? null
+        );
+
+        $digest = md5($string);
+
+        return EasyRSA::sign($digest, $privateKey);
+    }
+
+    /**
+     * Формирует контрольный код
+     *
+     * Параметры для формирования контрольного кода передаются в массиве $params в формате ключ => значение
+     *
+     * Обязательные параметры: Merchant_ID, OrderNumber, OrderAmount, OrderCurrency
+     * Необязательные параметры: OrderMaxPoints, CustomerNumber, Disable3DS, Prepayment
+     *
+     * @param array $params
+     * @param string $salt
+     * @return string
+     */
+    public static function getCheckValue(array $params, string $salt): string
+    {
+        $string = self::getSignString(
+            $params[RequestHelper::PARAM_MERCHANT_ID],
+            $params[RequestHelper::PARAM_ORDER_NUMBER],
+            $params[RequestHelper::PARAM_ORDER_AMOUNT],
+            $params[RequestHelper::PARAM_ORDER_CURRENCY],
+            $params[RequestHelper::PARAM_ORDER_MAX_POINTS] ?? null,
+            $params[RequestHelper::PARAM_CUSTOMER_NUMBER] ?? null,
+            $params[RequestHelper::PARAM_DISABLE_3DS] ?? null,
+            $params[RequestHelper::PARAM_PREPAYMENT] ?? null
+        );
+
+        return strtoupper(md5(strtoupper(md5($string . $salt))));
     }
 }

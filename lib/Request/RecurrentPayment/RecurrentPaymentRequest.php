@@ -3,9 +3,9 @@
 namespace Assist\Request\RecurrentPayment;
 
 use Assist\Helpers\RequestHelper;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 
-class RecurrentPaymentRequest extends AbstractRequest
+class RecurrentPaymentRequest extends Request
 {
     private const REQUIRED_PARAMETERS = [
         RequestHelper::PARAM_MERCHANT_ID,

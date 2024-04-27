@@ -5,7 +5,7 @@ namespace Assist\Request;
 use Assist\Exceptions\RequiredParameterDoesNotExistException;
 use Assist\Helpers\RequestHelper;
 
-class AbstractRequest implements RequestInterface
+class Request implements RequestInterface
 {
     protected string $path;
     protected array $params;

@@ -3,9 +3,9 @@
 namespace Assist\Request\Charge;
 
 use Assist\Helpers\RequestHelper;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 
-class ChargeRequest extends AbstractRequest
+class ChargeRequest extends Request
 {
     private const REQUIRED_PARAMETERS = [
         RequestHelper::PARAM_MERCHANT_ID,

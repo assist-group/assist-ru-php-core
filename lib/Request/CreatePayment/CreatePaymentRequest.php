@@ -3,9 +3,9 @@
 namespace Assist\Request\CreatePayment;
 
 use Assist\Helpers\RequestHelper;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 
-class CreatePaymentRequest extends AbstractRequest
+class CreatePaymentRequest extends Request
 {
     private const REQUIRED_PARAMETERS = [
         RequestHelper::PARAM_MERCHANT_ID,

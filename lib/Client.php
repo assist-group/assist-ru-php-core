@@ -9,7 +9,7 @@ use Assist\Exceptions\HttpException;
 use Assist\Exceptions\InternalServerErrorException;
 use Assist\Exceptions\RequiredParameterDoesNotExistException;
 use Assist\Exceptions\UnauthorizedException;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 use Assist\Request\Cancel\CancelRequest;
 use Assist\Request\Charge\ChargeRequest;
 use Assist\Request\CreatePayment\CreatePaymentRequest;
@@ -194,10 +194,10 @@ class Client extends BaseClient
     }
 
     /**
-     * @param AbstractRequest $request
+     * @param Request $request
      * @return void
      */
-    private function prepareRequestBaseParams(AbstractRequest $request): void
+    private function prepareRequestBaseParams(Request $request): void
     {
         $this->prepareRequestMerchantParam($request);
         $this->prepareRequestAuthParams($request);
@@ -205,10 +205,10 @@ class Client extends BaseClient
     }
 
     /**
-     * @param AbstractRequest $request
+     * @param Request $request
      * @return void
      */
-    private function prepareRequestMerchantParam(AbstractRequest $request): void
+    private function prepareRequestMerchantParam(Request $request): void
     {
         if (!$request->getMerchantId() && $this->config->getMerchantId()) {
             $request->setMerchantId($this->config->getMerchantId());
@@ -216,10 +216,10 @@ class Client extends BaseClient
     }
 
     /**
-     * @param AbstractRequest $request
+     * @param Request $request
      * @return void
      */
-    private function prepareRequestLanguageParam(AbstractRequest $request): void
+    private function prepareRequestLanguageParam(Request $request): void
     {
         if (!$request->getLanguageParam() && $this->config->getLanguage()) {
             $request->setLanguage($this->config->getLanguage());
@@ -227,10 +227,10 @@ class Client extends BaseClient
     }
 
     /**
-     * @param AbstractRequest $request
+     * @param Request $request
      * @return void
      */
-    private function prepareRequestAuthParams(AbstractRequest $request): void
+    private function prepareRequestAuthParams(Request $request): void
     {
         $config = $this->config;
 

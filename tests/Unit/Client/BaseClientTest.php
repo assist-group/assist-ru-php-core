@@ -1,13 +1,9 @@
 <?php
 
 use Assist\Client\BaseClient;
-
 use Assist\Client\HttpClient;
 use Assist\Config\Config;
-
-use Assist\Exceptions\AuthException;
 use Assist\Helpers\HttpHelper;
-
 use GuzzleHttp\Psr7\Response;
 
 use function Pest\Faker\fake;

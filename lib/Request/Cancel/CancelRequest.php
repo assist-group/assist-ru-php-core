@@ -3,9 +3,9 @@
 namespace Assist\Request\Cancel;
 
 use Assist\Helpers\RequestHelper;
-use Assist\Request\AbstractRequest;
+use Assist\Request\Request;
 
-class CancelRequest extends AbstractRequest
+class CancelRequest extends Request
 {
     private const REQUIRED_PARAMETERS = [
         RequestHelper::PARAM_MERCHANT_ID,
