@@ -112,6 +112,30 @@ class SignHelper
             $params[RequestHelper::PARAM_PREPAYMENT] ?? null
         );
 
-        return strtoupper(md5(strtoupper(md5($string . $salt))));
+        return strtoupper(md5(strtoupper(md5($salt) . md5($string))));
+    }
+
+    /**
+     * Формирует контрольный код для ответа со статусом заказа
+     *
+     * Параметры для формирования контрольного кода передаются в массиве $params в формате ключ => значение
+     *
+     * Обязательные параметры: Merchant_ID, OrderNumber, OrderAmount, OrderCurrency, orderstate
+     *
+     * @param array $params
+     * @param string $salt
+     * @return string
+     */
+    public static function getStatusResponseCheckValue(array $params, string $salt): string
+    {
+        $string = implode('', [
+            $params[RequestHelper::PARAM_MERCHANT_ID],
+            $params[RequestHelper::PARAM_ORDER_NUMBER],
+            $params[RequestHelper::PARAM_ORDER_AMOUNT],
+            $params[RequestHelper::PARAM_ORDER_CURRENCY],
+            $params[ResponseHelper::ORDER_STATE]
+        ]);
+
+        return strtoupper(md5(strtoupper(md5($salt) . md5($string))));
     }
 }

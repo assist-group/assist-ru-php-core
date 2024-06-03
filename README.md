@@ -154,9 +154,9 @@ $params, string $salt);
 | test_api_url  | Тестовый URL API Ассист      | https://payments.demo.paysecure.ru |
 | test_mode     | Индикатор тестового режима   | false                              |
 | lang          | Язык авторизационных страниц | RU                                 |
-| merchant_id   | Индикатор тестового режима   | -                                  |
-| login         | Индикатор тестового режима   | -                                  |
-| password      | Индикатор тестового режима   | -                                  |
+| merchant_id   | ID предприятия               | -                                  |
+| login         | Логин предприятия            | -                                  |
+| password      | Пароль предприятия           | -                                  |
 
 ### Конфигурация запросов
 
@@ -164,9 +164,10 @@ $params, string $salt);
 
 ```php
 $config = [
+    'Merchant_ID' => 'string',
     'OrderNumber' => 'string',
     'OrderAmount' => 0,
-    'Check' => [
+    'ChequeItems' => [
         [
           "id" => "string",
           "product" => "string",
