@@ -11,7 +11,6 @@ class CreatePaymentRequest extends Request
         RequestHelper::PARAM_MERCHANT_ID,
         RequestHelper::PARAM_ORDER_NUMBER,
         RequestHelper::PARAM_ORDER_AMOUNT,
-        RequestHelper::PARAM_CHEQUE_ITEMS,
     ];
 
     private const RECURRENT_PARAMETERS = [
