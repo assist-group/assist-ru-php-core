@@ -36,6 +36,12 @@ class RequestHelper
     public const PARAM_CUSTOMER_NUMBER = 'CustomerNumber';
     public const PARAM_DISABLE_3DS = 'Disable3DS';
     public const PARAM_PREPAYMENT = 'Prepayment';
+    public const PARAM_FIRSTNAME = 'Firstname';
+    public const PARAM_LASTNAME = 'Lastname';
+    public const PARAM_MIDDLENAME = 'Middlename';
+    public const PARAM_EMAIL = 'Email';
+    public const PARAM_MOBILE_PHONE = 'MobilePhone';
+    public const PARAM_ADDRESS = 'Address';
 
     public const PATH_CREATE_PAYMENT = '/pay/payrequest.cfm';
     public const PATH_CANCEL = '/cancel/wscancel.cfm';
