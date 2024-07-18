@@ -42,6 +42,8 @@ class RequestHelper
     public const PARAM_EMAIL = 'Email';
     public const PARAM_MOBILE_PHONE = 'MobilePhone';
     public const PARAM_ADDRESS = 'Address';
+    public const TAXATION_SYSTEM = 'TaxationSystem';
+    public const FP_MODE = 'FPMode';
 
     public const PATH_CREATE_PAYMENT = '/pay/payrequest.cfm';
     public const PATH_CANCEL = '/cancel/wscancel.cfm';
