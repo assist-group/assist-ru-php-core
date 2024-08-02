@@ -98,10 +98,9 @@ Assist\Helpers\SignHelper.
 #### Подпись (Signature)
 
 Для формирования подписи (Signature) в Assist\Helpers\SignHelper предусмотрен метод getSignature(array $params,
-PrivateKey $privateKey);
+string $privateKey);
 
-Метод принимает два параметра: массив $params включающий параметры для формирования подписи и инстанс
-ParagonIE\EasyRSA\PrivateKey $privateKey.
+Метод принимает два параметра: массив $params включающий параметры для формирования подписи и строку $privateKey.
 
 Обязательные параметры:
 

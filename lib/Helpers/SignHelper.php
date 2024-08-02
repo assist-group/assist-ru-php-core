@@ -2,9 +2,7 @@
 
 namespace Assist\Helpers;
 
-use ParagonIE\EasyRSA\EasyRSA;
-use ParagonIE\EasyRSA\Exception\InvalidKeyException;
-use ParagonIE\EasyRSA\PrivateKey;
+use SodiumException;
 
 class SignHelper
 {
@@ -65,12 +63,13 @@ class SignHelper
      * Необязательные параметры: OrderMaxPoints, CustomerNumber, Disable3DS, Prepayment
      *
      * @param array $params
-     * @param PrivateKey $privateKey
+     * @param string $privateKey
      * @return string
-     * @throws InvalidKeyException
+     * @throws SodiumException
      */
-    public static function getSignature(array $params, PrivateKey $privateKey): string
+    public static function getSignature(array $params, string $privateKey): string
     {
+        $privateKey = sodium_crypto_sign_secretkey($privateKey);
         $string = self::getSignString(
             $params[RequestHelper::PARAM_MERCHANT_ID],
             $params[RequestHelper::PARAM_ORDER_NUMBER],
@@ -84,7 +83,7 @@ class SignHelper
 
         $digest = md5($string);
 
-        return EasyRSA::sign($digest, $privateKey);
+        return sodium_crypto_sign_detached($digest, $privateKey);
     }
 
     /**
