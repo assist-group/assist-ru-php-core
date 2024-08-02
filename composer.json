@@ -1,5 +1,6 @@
 {
     "name": "assist/assist_ru_php_core",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "autoload": {
